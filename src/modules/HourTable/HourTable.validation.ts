@@ -33,9 +33,9 @@ const presetValidation = z.object({
 export const dayValidation = z.object({
     absent: absentValidation,
     date: z.date(),
-    endHour: hourValidation.nullable(),
+    endHour: z.date().nullable(),
     present: presetValidation,
-    startHour: hourValidation.nullable(),
+    startHour: z.date().nullable(),
 })
 
 export const monthValidation = z.object({

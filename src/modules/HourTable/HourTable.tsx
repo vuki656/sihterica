@@ -9,13 +9,18 @@ import {
     TextInput,
     Title,
 } from '@mantine/core'
-import { DatePicker } from '@mantine/dates'
 import {
+    DatePicker,
+    TimeInput,
+} from '@mantine/dates'
+import {
+    addHours,
     eachDayOfInterval,
     endOfMonth,
     format,
     isSunday,
     isWeekend,
+    startOfDay,
     startOfMonth,
 } from 'date-fns'
 import { useMemo } from 'react'
@@ -33,6 +38,9 @@ import { monthValidation } from './HourTable.validation'
 
 const COLUMNS = `200px 80px 80px repeat(${ABSENT_CATEGORIES.length + PRESENT_CATEGORIES.length}, 50px)`
 
+const SHIFT_START_TIME = 8
+const SHIFT_END_TIME = 16
+
 export const HourTable = () => {
     const days = useMemo(() => {
         return eachDayOfInterval({
@@ -44,7 +52,6 @@ export const HourTable = () => {
     const {
         control,
         handleSubmit,
-        register,
     } = useForm<HourTableFormValueType>({
         defaultValues: {
             list: days.map((day) => {
@@ -61,7 +68,7 @@ export const HourTable = () => {
                         yearlyVaccation: 0,
                     },
                     date: day,
-                    endHour: isWeekend(day) ? null : 16,
+                    endHour: isWeekend(day) ? null : addHours(startOfDay(new Date), SHIFT_END_TIME),
                     present: {
                         double: 0,
                         field: 0,
@@ -74,7 +81,7 @@ export const HourTable = () => {
                         standby: 0,
                         sunday: 0,
                     },
-                    startHour: isWeekend(day) ? null : 8,
+                    startHour: isWeekend(day) ? null : addHours(startOfDay(new Date()), SHIFT_START_TIME),
                 }
             }),
         },
@@ -82,7 +89,8 @@ export const HourTable = () => {
     })
 
     const onSubmit = (formValue: HourTableFormValueType) => {
-        console.log(formValue)
+        // eslint-disable-next-line no-console
+        console.info(formValue)
     }
 
     return (
@@ -102,9 +110,6 @@ export const HourTable = () => {
                         placeholder="Odaberite datum"
                     />
                 </Stack>
-                <Button>
-                    Unesi 8 sati svaki radni dan
-                </Button>
                 <Button type="submit">
                     Print
                 </Button>
@@ -167,7 +172,7 @@ export const HourTable = () => {
                         rowGap: '10px',
                     }}
                 >
-                    {days.map((day, index) => {
+                    {days.map((day, dayIndex) => {
                         return (
                             <Box
                                 key={day.toString()}
@@ -184,46 +189,84 @@ export const HourTable = () => {
                                 </Text>
                                 <Controller
                                     control={control}
-                                    name={`list.${index}.startHour`}
+                                    name={`list.${dayIndex}.startHour`}
                                     render={(controller) => {
                                         return (
-                                            <NumberInput
-                                                hideControls={true}
-                                                onChange={(value) => {
-                                                    if (!value) {
-                                                        controller.field.onChange(0)
-
-                                                        return
-                                                    }
-
-                                                    controller.field.onChange(value)
-                                                }}
+                                            <TimeInput
+                                                onChange={controller.field.onChange}
                                                 value={controller.field.value ?? undefined}
+                                                variant={controller.field.value ? 'default' : 'filled'}
                                             />
                                         )
                                     }}
                                 />
                                 <Controller
                                     control={control}
-                                    name={`list.${index}.endHour`}
+                                    name={`list.${dayIndex}.endHour`}
                                     render={(controller) => {
                                         return (
-                                            <NumberInput
-                                                hideControls={true}
-                                                onChange={(value) => {
-                                                    if (!value) {
-                                                        controller.field.onChange(null)
-
-                                                        return
-                                                    }
-
-                                                    controller.field.onChange(value)
-                                                }}
+                                            <TimeInput
+                                                onChange={controller.field.onChange}
                                                 value={controller.field.value ?? undefined}
+                                                variant={controller.field.value ? 'default' : 'filled'}
                                             />
                                         )
                                     }}
                                 />
+                                {PRESENT_CATEGORIES.map((category) => {
+                                    return (
+                                        <Controller
+                                            control={control}
+                                            key={category.name}
+                                            name={`list.${dayIndex}.present.${category.name}`}
+                                            render={(controller) => {
+                                                return (
+                                                    <NumberInput
+                                                        hideControls={true}
+                                                        onChange={(value) => {
+                                                            if (!value) {
+                                                                controller.field.onChange(null)
+
+                                                                return
+                                                            }
+
+                                                            controller.field.onChange(value)
+                                                        }}
+                                                        value={controller.field.value}
+                                                        variant={controller.field.value ? 'default' : 'filled'}
+                                                    />
+                                                )
+                                            }}
+                                        />
+                                    )
+                                })}
+                                {ABSENT_CATEGORIES.map((category) => {
+                                    return (
+                                        <Controller
+                                            control={control}
+                                            key={category.name}
+                                            name={`list.${dayIndex}.absent.${category.name}`}
+                                            render={(controller) => {
+                                                return (
+                                                    <NumberInput
+                                                        hideControls={true}
+                                                        onChange={(value) => {
+                                                            if (!value) {
+                                                                controller.field.onChange(null)
+
+                                                                return
+                                                            }
+
+                                                            controller.field.onChange(value)
+                                                        }}
+                                                        value={controller.field.value}
+                                                        variant={controller.field.value ? 'default' : 'filled'}
+                                                    />
+                                                )
+                                            }}
+                                        />
+                                    )
+                                })}
                             </Box>
                         )
                     })}
