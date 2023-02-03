@@ -1,9 +1,9 @@
-const Home = () => {
+import { HourTable } from "@/modules"
+
+const HourTablePage = () => {
     return (
-        <p>
-            hi
-        </p>
+        <HourTable />
     )
 }
 
-export default Home
+export default HourTablePage
