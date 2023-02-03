@@ -17,6 +17,7 @@ import {
 } from '@mantine/dates'
 import {
     IconBeach,
+    IconMedal,
     IconPrinter,
 } from '@tabler/icons-react'
 import {
@@ -47,17 +48,15 @@ import type {
 import { monthValidation } from './HourTable.validation'
 
 import { extractFormFieldError } from '@/shared/utils'
+import { HourInput } from './HourInput'
 
 const COLUMNS = `200px 80px 80px repeat(${ABSENT_CATEGORIES.length + PRESENT_CATEGORIES.length}, auto)`
 
 const SHIFT_START_TIME = 8
 const SHIFT_END_TIME = 16
 
-// TODO: vertical hover borders for column and horizontal borders for row
 // TODO: total hours for day row
 // TODO: total hours for the column
-// TODO: column and title alignment not matching
-// TODO: border color green if there are hours
 // TODO: add an indicator a day has holiday
 export const HourTable = (props: HourTableProps) => {
     const { nonWorkingDays } = props
@@ -350,8 +349,7 @@ export const HourTable = (props: HourTableProps) => {
                                                 name={`list.${dayIndex}.present.${category.name}`}
                                                 render={(controller) => {
                                                     return (
-                                                        <NumberInput
-                                                            hideControls={true}
+                                                        <HourInput
                                                             onChange={(value) => {
                                                                 if (!value) {
                                                                     controller.field.onChange(null)
@@ -376,8 +374,7 @@ export const HourTable = (props: HourTableProps) => {
                                                 name={`list.${dayIndex}.absent.${category.name}`}
                                                 render={(controller) => {
                                                     return (
-                                                        <NumberInput
-                                                            hideControls={true}
+                                                        <HourInput
                                                             onChange={(value) => {
                                                                 if (!value) {
                                                                     controller.field.onChange(null)
