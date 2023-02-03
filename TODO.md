@@ -1,6 +1,5 @@
 -   [ ] Load holidays and set them to 0, make that row different color
--   [ ] Write a list of holidays somewhere
 -   [ ] How to display form errors - notifs??
 -   [ ] Make everything smaller
--   [ ] Locale
 -   [ ] vertical hover borders for column and horizontal borders for row
+-   [ ] remove datefns - ??? day range ??? 
