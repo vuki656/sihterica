@@ -11,6 +11,7 @@ export const HourInput = forwardRef<HTMLInputElement, NumberInputProps>((props, 
     return (
         <NumberInput
             hideControls={true}
+            max={24}
             ref={ref}
             sx={(theme) => {
                 const borderColor = value === 0
