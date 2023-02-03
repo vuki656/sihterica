@@ -226,7 +226,7 @@ export const HourTable = (props: HourTableProps) => {
                             padding: 30,
                             position: 'sticky',
                             top: 0,
-                            zIndex: 9999,
+                            zIndex: 5,
                         })}
                     >
                         <Text
