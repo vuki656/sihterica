@@ -246,7 +246,11 @@ export const HourTable = () => {
                                 <Box
                                     key={day.toString()}
                                     sx={(theme) => ({
-                                        backgroundColor: isSunday(day) ? theme.colors.blue[3] : '',
+                                        borderRadius: theme.radius.sm,
+                                        padding: 10,
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        backgroundColor: isSunday(day) ? theme.colors.blue[1] : '',
                                         columnGap: '10px',
                                         display: 'grid',
                                         gridAutoFlow: 'column',
