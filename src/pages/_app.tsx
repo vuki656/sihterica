@@ -1,7 +1,6 @@
 import { MantineProvider } from '@mantine/core'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import 'dayjs/locale/hr';
 
 const App = (props: AppProps) => {
     const {

@@ -1,7 +1,6 @@
 import {
-    Grid,
-    Group,
-    Paper,
+    Box,
+    NumberInput,
     Stack,
     Text,
     TextInput,
@@ -15,15 +14,14 @@ import {
     eachDayOfInterval,
     endOfMonth,
     format,
-    setDefaultOptions,
     startOfMonth,
 } from 'date-fns'
-import { hr } from 'date-fns/locale'
 import { useMemo } from 'react'
 
-setDefaultOptions({ locale: hr })
-
-const other = [
+const CATEGORIES = [
+    'Zastoj',
+    'Ukupno Radno Vrijeme',
+    'Redovni rad',
     'Nocni rad',
     'Prekovremeni rad',
     'Smjenski rad',
@@ -46,12 +44,6 @@ const other = [
     'Nenadocnost na zahtjev radnika',
     'Strak',
     'Lock out',
-]
-
-const COLUMNS = [
-    'Zastoj',
-    'Ukupno Radno Vrijeme',
-    'Redovni rad',
 ]
 
 export const HourTable = () => {
@@ -78,49 +70,68 @@ export const HourTable = () => {
                     placeholder="Odaberite datum"
                 />
             </Stack>
-            <Paper shadow="xs">
-                <Grid>
-                    <Grid.Col span={3}>
-                        {days.map((day) => {
-                            const dayName = format(day, 'EEEE')
-
-                            const isSunday = dayName === 'nedjelja'
-                            const isSaturday = dayName === 'subota'
-
-                            return (
-                                <Group
-                                    position="apart"
-                                    sx={(theme) => ({
-                                        backgroundColor: isSunday ? theme.colors.blue[2] : '',
-                                    })}
-                                >
-                                    <Text>
-                                        {format(day, 'dd.MM.yyyy EEEE')}
-                                    </Text>
-                                    <Text>
-                                        {
-                                            isSunday || isSaturday
-                                                ? null
-                                                : (
-                                                    <TimeRangeInput
-                                                        clearable={true}
-                                                        label="Appointment time"
-                                                    />
-                                                )
-                                        }
-                                    </Text>
-                                </Group>
-                            )
-                        })}
-                    </Grid.Col>
-                    <Grid.Col span={3}>
-                        <TimeRangeInput
-                            clearable={true}
-                            label="Appointment time"
-                        />
-                    </Grid.Col>
-                </Grid>
-            </Paper>
+            <Box
+                sx={{
+                    columnGap: '10px',
+                    display: 'grid',
+                    gridAutoFlow: 'column',
+                    gridTemplateColumns: `200px 150px 150px repeat(${CATEGORIES.length}, 50px)`,
+                }}
+            >
+                <Text>
+                    Datum
+                </Text>
+                <Text>
+                    Od - Do
+                </Text>
+                <Text>
+                    Od - Do u Slucaju dvokratnog radnog vremena
+                </Text>
+                {CATEGORIES.map((category) => {
+                    return (
+                        <Text
+                            sx={{
+                                textOrientation: 'revert',
+                                transform: 'rotate(-180deg)',
+                                writingMode: 'vertical-rl',
+                            }}
+                        >
+                            {category}
+                        </Text>
+                    )
+                })}
+            </Box>
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    rowGap: '10px',
+                }}
+            >
+                {days.map((day) => {
+                    return (
+                        <Box
+                            sx={{
+                                columnGap: '10px',
+                                display: 'grid',
+                                gridAutoFlow: 'column',
+                                gridTemplateColumns: `200px 150px 150px repeat(${CATEGORIES.length}, 50px)`,
+                            }}
+                        >
+                            <Text>
+                                {format(day, 'dd.MM.yyyy EEEE')}
+                            </Text>
+                            <TimeRangeInput clearable={true} />
+                            <TimeRangeInput clearable={true} />
+                            {CATEGORIES.map((category) => {
+                                return (
+                                    <NumberInput hideControls={true} />
+                                )
+                            })}
+                        </Box>
+                    )
+                })}
+            </Box>
         </Stack>
     )
 }

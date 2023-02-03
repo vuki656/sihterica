@@ -1,1 +1,3 @@
 - [ ] Load holidays
+- [ ] Make everything smaller
+- [ ] Locale
