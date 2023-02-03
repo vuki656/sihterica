@@ -14,7 +14,12 @@ export default class _Document extends Document {
     public render() {
         return (
             <Html>
-                <Head />
+                <Head>
+                    <meta
+                        content="noindex"
+                        name="robots"
+                    />
+                </Head>
                 <body>
                     <Main />
                     <NextScript />
