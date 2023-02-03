@@ -1,5 +1,7 @@
 import {
     Box,
+    Button,
+    Center,
     NumberInput,
     Stack,
     Text,
@@ -14,12 +16,12 @@ import {
     eachDayOfInterval,
     endOfMonth,
     format,
+    isSunday,
     startOfMonth,
 } from 'date-fns'
 import { useMemo } from 'react'
 
 const CATEGORIES = [
-    'Zastoj',
     'Ukupno Radno Vrijeme',
     'Redovni rad',
     'Nocni rad',
@@ -40,11 +42,9 @@ const CATEGORIES = [
     'Rodiljni dopust',
     'Placeni dopust',
     'Neplaceni dopust',
-    'Nenadocnost krivnjom radnika',
-    'Nenadocnost na zahtjev radnika',
-    'Strak',
-    'Lock out',
 ]
+
+const COLUMNS = `200px 200px repeat(${CATEGORIES.length}, 50px)`
 
 export const HourTable = () => {
     const days = useMemo(() => {
@@ -57,7 +57,7 @@ export const HourTable = () => {
     return (
         <Stack m={10}>
             <Title>
-                eSihterica - Dobrodosli u 21. stoljece ❤️
+                🗃️ eSihterica
             </Title>
             <Stack>
                 <TextInput
@@ -65,28 +65,32 @@ export const HourTable = () => {
                     placeholder="Ime i prezime radnika"
                 />
                 <DatePicker
-                    label="Za darum"
+                    label="Za datum"
                     locale="hr"
                     placeholder="Odaberite datum"
                 />
             </Stack>
+            <Button>
+                Unesi 8 sati svaki radni dan
+            </Button>
             <Box
                 sx={{
                     columnGap: '10px',
                     display: 'grid',
                     gridAutoFlow: 'column',
-                    gridTemplateColumns: `200px 150px 150px repeat(${CATEGORIES.length}, 50px)`,
+                    gridTemplateColumns: COLUMNS,
                 }}
             >
-                <Text>
-                    Datum
-                </Text>
-                <Text>
-                    Od - Do
-                </Text>
-                <Text>
-                    Od - Do u Slucaju dvokratnog radnog vremena
-                </Text>
+                <Center>
+                    <Text>
+                        Datum
+                    </Text>
+                </Center>
+                <Center>
+                    <Text>
+                        Od - Do
+                    </Text>
+                </Center>
                 {CATEGORIES.map((category) => {
                     return (
                         <Text
@@ -111,17 +115,18 @@ export const HourTable = () => {
                 {days.map((day) => {
                     return (
                         <Box
-                            sx={{
+                            key={day.toString()}
+                            sx={(theme) => ({
+                                backgroundColor: isSunday(day) ? theme.colors.blue[3] : '',
                                 columnGap: '10px',
                                 display: 'grid',
                                 gridAutoFlow: 'column',
-                                gridTemplateColumns: `200px 150px 150px repeat(${CATEGORIES.length}, 50px)`,
-                            }}
+                                gridTemplateColumns: COLUMNS,
+                            })}
                         >
                             <Text>
                                 {format(day, 'dd.MM.yyyy EEEE')}
                             </Text>
-                            <TimeRangeInput clearable={true} />
                             <TimeRangeInput clearable={true} />
                             {CATEGORIES.map((category) => {
                                 return (
