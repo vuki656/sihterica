@@ -25,7 +25,7 @@ import {
     startOfDay,
     startOfMonth,
 } from 'date-fns'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import {
     Controller,
     useForm,
@@ -160,7 +160,7 @@ export const HourTable = () => {
                             display: 'grid',
                             gridAutoFlow: 'column',
                             gridTemplateColumns: COLUMNS,
-                            padding: 20,
+                            padding: 30,
                             position: 'sticky',
                             top: 0,
                             zIndex: 3,
@@ -200,7 +200,7 @@ export const HourTable = () => {
                             return (
                                 <Text
                                     key={category.label}
-                                    sx={{
+                                    sx={(theme) => ({
                                         alignItems: 'center',
                                         display: 'flex',
                                         fontWeight: 'bold',
@@ -208,7 +208,7 @@ export const HourTable = () => {
                                         textOrientation: 'revert',
                                         transform: 'rotate(-180deg)',
                                         writingMode: 'vertical-rl',
-                                    }}
+                                    })}
                                 >
                                     {category.label}
                                 </Text>
@@ -218,7 +218,7 @@ export const HourTable = () => {
                             return (
                                 <Text
                                     key={category.label}
-                                    sx={{
+                                    sx={(theme) => ({
                                         alignItems: 'center',
                                         display: 'flex',
                                         fontWeight: 'bold',
@@ -226,7 +226,7 @@ export const HourTable = () => {
                                         textOrientation: 'revert',
                                         transform: 'rotate(-180deg)',
                                         writingMode: 'vertical-rl',
-                                    }}
+                                    })}
                                 >
                                     {category.label}
                                 </Text>
@@ -246,6 +246,9 @@ export const HourTable = () => {
                                 <Box
                                     key={day.toString()}
                                     sx={(theme) => ({
+                                        '&:hover': {
+                                            backgroundColor: theme.colors.yellow[1]
+                                        },
                                         borderRadius: theme.radius.sm,
                                         padding: 10,
                                         alignItems: 'center',
@@ -268,7 +271,6 @@ export const HourTable = () => {
                                                 <TimeInput
                                                     onChange={controller.field.onChange}
                                                     value={controller.field.value ?? undefined}
-                                                    variant={controller.field.value ? 'default' : 'filled'}
                                                 />
                                             )
                                         }}
@@ -281,7 +283,6 @@ export const HourTable = () => {
                                                 <TimeInput
                                                     onChange={controller.field.onChange}
                                                     value={controller.field.value ?? undefined}
-                                                    variant={controller.field.value ? 'default' : 'filled'}
                                                 />
                                             )
                                         }}
@@ -306,7 +307,6 @@ export const HourTable = () => {
                                                                 controller.field.onChange(value)
                                                             }}
                                                             value={controller.field.value}
-                                                            variant={controller.field.value ? 'default' : 'filled'}
                                                         />
                                                     )
                                                 }}
@@ -333,7 +333,6 @@ export const HourTable = () => {
                                                                 controller.field.onChange(value)
                                                             }}
                                                             value={controller.field.value}
-                                                            variant={controller.field.value ? 'default' : 'filled'}
                                                         />
                                                     )
                                                 }}
