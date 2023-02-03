@@ -1,1 +1,2 @@
-export * from './extactFormFieldError'
+export * from './capitalize'
+export * from './extractFormFieldError'

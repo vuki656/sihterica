@@ -4,7 +4,6 @@ import {
     Button,
     Group,
     HoverCard,
-    NumberInput,
     Paper,
     Stack,
     Text,
@@ -17,7 +16,6 @@ import {
 } from '@mantine/dates'
 import {
     IconBeach,
-    IconMedal,
     IconPrinter,
 } from '@tabler/icons-react'
 import {
@@ -36,6 +34,7 @@ import {
     useForm,
 } from 'react-hook-form'
 
+import { HourInput } from './HourInput'
 import {
     ABSENT_CATEGORIES,
     PRESENT_CATEGORIES,
@@ -47,8 +46,10 @@ import type {
 } from './HourTable.types'
 import { monthValidation } from './HourTable.validation'
 
-import { extractFormFieldError } from '@/shared/utils'
-import { HourInput } from './HourInput'
+import {
+    capitalize,
+    extractFormFieldError,
+} from '@/shared/utils'
 
 const COLUMNS = `200px 80px 80px repeat(${ABSENT_CATEGORIES.length + PRESENT_CATEGORIES.length}, auto)`
 
@@ -254,7 +255,7 @@ export const HourTable = (props: HourTableProps) => {
                             return (
                                 <Text
                                     key={category.label}
-                                    sx={(theme) => ({
+                                    sx={{
                                         alignItems: 'center',
                                         display: 'flex',
                                         fontWeight: 'bold',
@@ -262,7 +263,7 @@ export const HourTable = (props: HourTableProps) => {
                                         textOrientation: 'revert',
                                         transform: 'rotate(-180deg)',
                                         writingMode: 'vertical-rl',
-                                    })}
+                                    }}
                                 >
                                     {category.label}
                                 </Text>
@@ -272,7 +273,7 @@ export const HourTable = (props: HourTableProps) => {
                             return (
                                 <Text
                                     key={category.label}
-                                    sx={(theme) => ({
+                                    sx={{
                                         alignItems: 'center',
                                         display: 'flex',
                                         fontWeight: 'bold',
@@ -280,7 +281,7 @@ export const HourTable = (props: HourTableProps) => {
                                         textOrientation: 'revert',
                                         transform: 'rotate(-180deg)',
                                         writingMode: 'vertical-rl',
-                                    })}
+                                    }}
                                 >
                                     {category.label}
                                 </Text>
@@ -315,7 +316,9 @@ export const HourTable = (props: HourTableProps) => {
                                     })}
                                 >
                                     <Text>
-                                        {format(day, 'dd.MM.yyyy EEEE')}
+                                        {format(day, 'dd.MM.yyyy')}
+                                        {' '}
+                                        {capitalize(format(day, 'EEEE'))}
                                     </Text>
                                     <Controller
                                         control={control}
