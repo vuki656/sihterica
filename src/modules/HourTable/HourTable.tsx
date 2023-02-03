@@ -36,11 +36,14 @@ import {
 import type { HourTableFormValueType } from './HourTable.types'
 import { monthValidation } from './HourTable.validation'
 
-const COLUMNS = `200px 80px 80px repeat(${ABSENT_CATEGORIES.length + PRESENT_CATEGORIES.length}, 50px)`
+const COLUMNS = `200px 80px 80px repeat(${ABSENT_CATEGORIES.length + PRESENT_CATEGORIES.length}, auto)`
 
 const SHIFT_START_TIME = 8
 const SHIFT_END_TIME = 16
 
+// TODO: vertical hover borders for column and horizontal borders for row
+// TODO: total hours for day row
+// TODO: total hours for the column
 export const HourTable = () => {
     const days = useMemo(() => {
         return eachDayOfInterval({
@@ -119,6 +122,10 @@ export const HourTable = () => {
                         display: 'grid',
                         gridAutoFlow: 'column',
                         gridTemplateColumns: COLUMNS,
+                        position: 'sticky',
+                        top: 0,
+                        backgroundColor: 'white',
+                        zIndex: 3
                     }}
                 >
                     <Center>
@@ -139,6 +146,7 @@ export const HourTable = () => {
                     {PRESENT_CATEGORIES.map((category) => {
                         return (
                             <Text
+                                align='center'
                                 key={category.label}
                                 sx={{
                                     textOrientation: 'revert',
@@ -153,6 +161,7 @@ export const HourTable = () => {
                     {ABSENT_CATEGORIES.map((category) => {
                         return (
                             <Text
+                                align='center'
                                 key={category.label}
                                 sx={{
                                     textOrientation: 'revert',
