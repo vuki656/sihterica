@@ -1,4 +1,4 @@
-import { HourTable } from "@/modules"
+import { HourTable } from '@/modules'
 
 const HourTablePage = () => {
     return (
