@@ -1,1 +1,1 @@
-export * from './extractFormFieldError'
+export * from './extactFormFieldError'

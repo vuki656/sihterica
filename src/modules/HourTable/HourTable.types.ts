@@ -19,3 +19,22 @@ export type AbsentCategoryType = {
     name: keyof DayValidationType['absent']
 }
 
+export type GoogleCalendarApiResponse = {
+    items: HolidayType[]
+}
+
+export type HolidayType = {
+    description: string
+    end: {
+        date: string
+    }
+    id: string
+    start: {
+        date: string
+    }
+    summary: string
+}
+
+export type HourTableProps = {
+    nonWorkingDays: HolidayType[]
+}

@@ -3,6 +3,7 @@ import {
     Box,
     Button,
     Group,
+    HoverCard,
     NumberInput,
     Paper,
     Stack,
@@ -14,7 +15,10 @@ import {
     DatePicker,
     TimeInput,
 } from '@mantine/dates'
-import { IconPrinter } from '@tabler/icons-react'
+import {
+    IconBeach,
+    IconPrinter,
+} from '@tabler/icons-react'
 import {
     addHours,
     eachDayOfInterval,
@@ -25,7 +29,7 @@ import {
     startOfDay,
     startOfMonth,
 } from 'date-fns'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import {
     Controller,
     useForm,
@@ -34,11 +38,15 @@ import {
 import {
     ABSENT_CATEGORIES,
     PRESENT_CATEGORIES,
+    TIME_SPAN_IN_DAYS,
 } from './HourTable.data'
-import type { HourTableFormValueType } from './HourTable.types'
+import type {
+    HourTableFormValueType,
+    HourTableProps,
+} from './HourTable.types'
 import { monthValidation } from './HourTable.validation'
 
-import { extractFormFieldError } from '@/shared/utils/extactFormFieldError'
+import { extractFormFieldError } from '@/shared/utils'
 
 const COLUMNS = `200px 80px 80px repeat(${ABSENT_CATEGORIES.length + PRESENT_CATEGORIES.length}, auto)`
 
@@ -49,7 +57,11 @@ const SHIFT_END_TIME = 16
 // TODO: total hours for day row
 // TODO: total hours for the column
 // TODO: column and title alignment not matching
-export const HourTable = () => {
+// TODO: border color green if there are hours
+// TODO: add an indicator a day has holiday
+export const HourTable = (props: HourTableProps) => {
+    const { nonWorkingDays } = props
+
     const days = useMemo(() => {
         return eachDayOfInterval({
             end: endOfMonth(new Date()),
@@ -108,9 +120,58 @@ export const HourTable = () => {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <Stack m={20}>
-                <Title>
-                    🗃️ eSihterica
-                </Title>
+                <Group position="apart">
+                    <Title>
+                        🗃️ eSihterica
+                    </Title>
+                    <HoverCard
+                        shadow="md"
+                        width={500}
+                    >
+                        <HoverCard.Target>
+                            <Button
+                                color="blue"
+                                leftIcon={<IconBeach />}
+                                variant="light"
+                            >
+                                Blagdani
+                            </Button>
+                        </HoverCard.Target>
+                        <HoverCard.Dropdown>
+                            <Text
+                                mb={5}
+                                size="lg"
+                                weight="bold"
+                            >
+                                Blagdani u sljedecih
+                                {' '}
+                                {TIME_SPAN_IN_DAYS}
+                                {' '}
+                                dana
+                            </Text>
+                            <Stack spacing={2}>
+                                {nonWorkingDays.map((holiday) => {
+                                    return (
+                                        <Group key={holiday.id}>
+                                            <Text>
+                                                {format(new Date(holiday.start.date), 'dd.MM.yyyy EEEE')}
+                                                {': '}
+                                                {holiday.summary}
+                                            </Text>
+                                        </Group>
+                                    )
+                                })}
+                            </Stack>
+                        </HoverCard.Dropdown>
+                    </HoverCard>
+                    <Button
+                        color="red"
+                        leftIcon={<IconPrinter />}
+                        type="submit"
+                    >
+                        Print
+                    </Button>
+                </Group>
                 <Group position="apart">
                     <Group>
                         <TextInput
@@ -136,12 +197,6 @@ export const HourTable = () => {
                             }}
                         />
                     </Group>
-                    <Button
-                        leftIcon={<IconPrinter />}
-                        type="submit"
-                    >
-                        Print
-                    </Button>
                 </Group>
                 <Paper
                     component={Stack}
@@ -247,17 +302,17 @@ export const HourTable = () => {
                                     key={day.toString()}
                                     sx={(theme) => ({
                                         '&:hover': {
-                                            backgroundColor: theme.colors.yellow[1]
+                                            backgroundColor: theme.colors.yellow[1],
                                         },
-                                        borderRadius: theme.radius.sm,
-                                        padding: 10,
                                         alignItems: 'center',
-                                        justifyContent: 'center',
                                         backgroundColor: isSunday(day) ? theme.colors.blue[1] : '',
+                                        borderRadius: theme.radius.sm,
                                         columnGap: '10px',
                                         display: 'grid',
                                         gridAutoFlow: 'column',
                                         gridTemplateColumns: COLUMNS,
+                                        justifyContent: 'center',
+                                        padding: 10,
                                     })}
                                 >
                                     <Text>
