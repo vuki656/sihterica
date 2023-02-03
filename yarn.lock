@@ -793,6 +793,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tabler/icons-react@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "@tabler/icons-react@npm:2.2.0"
+  dependencies:
+    "@tabler/icons": 2.2.0
+    prop-types: ^15.7.2
+  peerDependencies:
+    react: ^16.5.1 || ^17.0.0 || ^18.0.0
+  checksum: 9bde60900907f0876a2127b183a67da635ec5e8214897652a8ba114981a653cd0bfa3a0393f7cbee659af536ae7c6e2ffa395355583f2d5ec2e224673559facc
+  languageName: node
+  linkType: hard
+
+"@tabler/icons@npm:2.2.0":
+  version: 2.2.0
+  resolution: "@tabler/icons@npm:2.2.0"
+  checksum: 8240c3930979304cd6800a70b35efbb40931831f787df4a658ef8c42ded6cc1b001dfb9b15af0d61d074701220e91161918ff1757d3c98f19d120ee39e964753
+  languageName: node
+  linkType: hard
+
 "@types/json-schema@npm:^7.0.9":
   version: 7.0.11
   resolution: "@types/json-schema@npm:7.0.11"
@@ -3828,7 +3847,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.8.1":
+"prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -4198,6 +4217,7 @@ __metadata:
     "@mantine/hooks": ^5.10.3
     "@mantine/next": ^5.10.3
     "@rimac-technology/style-guide": ^2.0.1
+    "@tabler/icons-react": ^2.2.0
     "@types/node": 18.11.18
     "@types/react": 18.0.27
     "@types/react-dom": 18.0.10

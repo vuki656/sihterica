@@ -22,6 +22,11 @@ const App = (props: AppProps) => {
             <MantineProvider
                 theme={{
                     colorScheme: 'light',
+                    globalStyles: (theme) => ({
+                        body: {
+                            backgroundColor: theme.colors.gray[0],
+                        },
+                    }),
                 }}
                 withGlobalStyles={true}
                 withNormalizeCSS={true}
