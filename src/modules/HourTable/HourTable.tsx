@@ -23,8 +23,10 @@ import {
     eachDayOfInterval,
     endOfMonth,
     format,
+    isSameDay,
     isSunday,
     isWeekend,
+    parseISO,
     startOfDay,
     startOfMonth,
 } from 'date-fns'
@@ -37,10 +39,12 @@ import {
 import { HourInput } from './HourInput'
 import {
     ABSENT_CATEGORIES,
+    GOOGLE_HOLIDAY_DATE_FORMAT,
     PRESENT_CATEGORIES,
     TIME_SPAN_IN_DAYS,
 } from './HourTable.data'
 import type {
+    HolidayType,
     HourTableFormValueType,
     HourTableProps,
 } from './HourTable.types'
@@ -60,7 +64,11 @@ const SHIFT_END_TIME = 16
 // TODO: total hours for the column
 // TODO: add an indicator a day has holiday
 export const HourTable = (props: HourTableProps) => {
-    const { nonWorkingDays } = props
+    const { nonWorkingDays: test } = props
+
+    // TODO: remove this once day holiday note is done
+    const nonWorkingDays: HolidayType[] = [...test, { description: 'Drzani praznik', end: { date: new Date().toString() }, id: '123', start: { date: format(new Date, GOOGLE_HOLIDAY_DATE_FORMAT) }, summary: 'Hello' }]
+    console.log(nonWorkingDays)
 
     const days = useMemo(() => {
         return eachDayOfInterval({
@@ -218,7 +226,7 @@ export const HourTable = (props: HourTableProps) => {
                             padding: 30,
                             position: 'sticky',
                             top: 0,
-                            zIndex: 3,
+                            zIndex: 9999,
                         })}
                     >
                         <Text
@@ -297,6 +305,11 @@ export const HourTable = (props: HourTableProps) => {
                         }}
                     >
                         {days.map((day, dayIndex) => {
+                            // TODO: figureout how to show this nicely
+                            const nonWorkingDay = nonWorkingDays.find((nonWorkingDay) => {
+                                return isSameDay(parseISO(nonWorkingDay.start.date), day)
+                            })
+
                             return (
                                 <Box
                                     key={day.toString()}

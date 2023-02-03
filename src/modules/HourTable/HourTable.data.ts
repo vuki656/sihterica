@@ -5,6 +5,7 @@ import type {
     PresentCategoryType,
 } from './HourTable.types'
 
+export const GOOGLE_HOLIDAY_DATE_FORMAT = 'yyyy-MM-dd'
 const GOOGLE_CALENDAR_URL = 'https://www.googleapis.com/calendar/v3/calendars'
 const CROATIAN_HOLIDAYS_URL = 'hr.croatian%23holiday%40group.v.calendar.google.com/events'
 export const TIME_SPAN_IN_DAYS = 90

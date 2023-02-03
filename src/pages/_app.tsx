@@ -1,10 +1,10 @@
 import { MantineProvider } from '@mantine/core'
+import { setDefaultOptions } from 'date-fns'
+import { hr } from 'date-fns/locale'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { useEffect } from 'react'
 import 'dayjs/locale/hr'
-import { setDefaultOptions } from 'date-fns'
-import { hr } from 'date-fns/locale'
 
 const App = (props: AppProps) => {
     const {

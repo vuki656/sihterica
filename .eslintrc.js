@@ -8,5 +8,7 @@ module.exports = {
     parserOptions: {
         project: './tsconfig.json',
     },
-    ignorePatterns: []
+    rules: {
+        'sonarjs/prefer-single-boolean-return': 'off'
+    }
 }

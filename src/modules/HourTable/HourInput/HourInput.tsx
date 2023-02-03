@@ -2,7 +2,7 @@ import type { NumberInputProps } from '@mantine/core'
 import { NumberInput } from '@mantine/core'
 import { forwardRef } from 'react'
 
-export const HourInput = forwardRef<HTMLInputElement, NumberInputProps>((props, ref) => {
+export const HourInput = forwardRef<HTMLInputElement, NumberInputProps>(function HourInput(props, ref) {
     const {
         value,
         ...other
