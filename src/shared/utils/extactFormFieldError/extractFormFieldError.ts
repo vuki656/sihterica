@@ -3,7 +3,7 @@ import type { FieldError } from 'react-hook-form'
 import type { ExtractFormFieldErrors } from './extractFormFieldError.types'
 
 export function extractFormFieldError(fieldError: FieldError | undefined): ExtractFormFieldErrors {
-    if (!fieldError) {
+    if (!fieldError?.message) {
         return {
             error: '',
         }
