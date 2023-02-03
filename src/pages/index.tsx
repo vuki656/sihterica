@@ -21,6 +21,15 @@ export const getStaticProps = async () => {
         throw new Error('No response from google API')
     }
 
+    // TODO: maybe solve this in a wiser way?
+    if ('error' in holidays) {
+        return {
+            props: {
+                nonWorkingDays: [],
+            },
+        }
+    }
+
     const nonWorkingDays = holidays.items.filter((holiday) => {
         if (holiday.description.toLowerCase().includes('spomendan')) {
             return false
