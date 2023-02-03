@@ -4,3 +4,10 @@ node_modules
 # Next
 .next
 next-env.d.ts
+
+# Yarn
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
