@@ -1,9 +1,16 @@
 import {
-    Box,
+    Grid,
+    Group,
     Paper,
-    Table,
+    Stack,
     Text,
+    TextInput,
+    Title,
 } from '@mantine/core'
+import {
+    DatePicker,
+    TimeRangeInput,
+} from '@mantine/dates'
 import {
     eachDayOfInterval,
     endOfMonth,
@@ -56,68 +63,64 @@ export const HourTable = () => {
     }, [])
 
     return (
-        <Paper
-            m={20}
-            shadow="md"
-        >
-            <Table
-                captionSide="bottom"
-                highlightOnHover={true}
-                striped={true}
-                withBorder={true}
-                withColumnBorders={true}
-            >
-                <caption>
-                    Some elements from periodic table
-                </caption>
-                <thead>
-                    <tr>
-                        <th>
-                            Datum
-                        </th>
-                        <th>
-                            <Text align="center">
-                                Od - Do
-                            </Text>
-                        </th>
-                        {COLUMNS.map((column) => {
+        <Stack m={10}>
+            <Title>
+                eSihterica - Dobrodosli u 21. stoljece ❤️
+            </Title>
+            <Stack>
+                <TextInput
+                    label="Radnik"
+                    placeholder="Ime i prezime radnika"
+                />
+                <DatePicker
+                    label="Za darum"
+                    locale="hr"
+                    placeholder="Odaberite datum"
+                />
+            </Stack>
+            <Paper shadow="xs">
+                <Grid>
+                    <Grid.Col span={3}>
+                        {days.map((day) => {
+                            const dayName = format(day, 'EEEE')
+
+                            const isSunday = dayName === 'nedjelja'
+                            const isSaturday = dayName === 'subota'
+
                             return (
-                                <th>
-                                    {column}
-                                </th>
-                            )
-                        })}
-                    </tr>
-                </thead>
-                <tbody>
-                    {days.map((day) => {
-                        const dayName = format(day, 'EEEE')
-
-                        const isSunday = dayName === 'nedjelja'
-                        const isSaturday = dayName === 'subota'
-
-                        return (
-                            <tr>
-                                <Box
+                                <Group
+                                    position="apart"
                                     sx={(theme) => ({
-                                        backgroundColor: isSunday ? theme.colors.blue : '',
+                                        backgroundColor: isSunday ? theme.colors.blue[2] : '',
                                     })}
                                 >
-                                    <td>
-                                        {format(day, 'dd.MM.yyyy (EEEE)')}
-                                    </td>
-                                    <td>
-                                        {format(day, 'dd.MM.yyyy (EEEE)')}
-                                    </td>
-                                    <td>
-                                        {format(day, 'dd.MM.yyyy (EEEE)')}
-                                    </td>
-                                </Box>
-                            </tr>
-                        )
-                    })}
-                </tbody>
-            </Table>
-        </Paper>
+                                    <Text>
+                                        {format(day, 'dd.MM.yyyy EEEE')}
+                                    </Text>
+                                    <Text>
+                                        {
+                                            isSunday || isSaturday
+                                                ? null
+                                                : (
+                                                    <TimeRangeInput
+                                                        clearable={true}
+                                                        label="Appointment time"
+                                                    />
+                                                )
+                                        }
+                                    </Text>
+                                </Group>
+                            )
+                        })}
+                    </Grid.Col>
+                    <Grid.Col span={3}>
+                        <TimeRangeInput
+                            clearable={true}
+                            label="Appointment time"
+                        />
+                    </Grid.Col>
+                </Grid>
+            </Paper>
+        </Stack>
     )
 }
