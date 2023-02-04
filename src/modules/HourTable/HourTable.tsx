@@ -28,7 +28,6 @@ import {
     startOfDay,
     startOfMonth,
 } from 'date-fns'
-import dayjs from 'dayjs'
 import {
     useMemo,
     useRef,
@@ -38,7 +37,7 @@ import {
     Controller,
     useForm,
 } from 'react-hook-form'
-import ReactToPrint from 'react-to-print'
+import { useReactToPrint } from 'react-to-print'
 
 import { HourInput } from './HourInput'
 import {
@@ -51,12 +50,12 @@ import type {
     HourTableProps,
 } from './HourTable.types'
 import { monthValidation } from './HourTable.validation'
+import { Pdf } from './Pdf'
 
 import {
     capitalize,
     extractFormFieldError,
 } from '@/shared/utils'
-import { Pdf } from './Pdf'
 
 const COLUMNS = `200px 80px 80px repeat(${ABSENT_CATEGORIES.length + PRESENT_CATEGORIES.length}, auto)`
 
@@ -67,12 +66,17 @@ const SHIFT_END_TIME = 16
 // TODO: total hours for the column
 // TODO: performance is trash
 // FIXME: you can put blank value inside an hour box
+// FIXME: remove pdf from the bottom after print
 export const HourTable = (props: HourTableProps) => {
     const { nonWorkingDays } = props
 
     const [data, setData] = useState<HourTableFormValueType | null>(null)
 
-    const componentRef = useRef<HTMLDivElement | null>(null)
+    const pdfRef = useRef<HTMLDivElement | null>(null)
+
+    const printPdf = useReactToPrint({
+        content: () => pdfRef.current,
+    })
 
     const days = useMemo(() => {
         return eachDayOfInterval({
@@ -126,35 +130,12 @@ export const HourTable = (props: HourTableProps) => {
 
     const onSubmit = async (formValue: HourTableFormValueType) => {
         setData(formValue)
-        // const blob = await pdf((<Pdf data={formValue} />)).toBlob()
-        //
-        // const blobUrl = URL.createObjectURL(blob)
-        // const link = document.createElement('a')
-        //
-        // link.href = blobUrl
-        // link.download = `${formValue.fullName}-sihterica.pdf`
-        //
-        // document.body.appendChild(link)
-        //
-        // link.click()
-        //
-        // window.requestAnimationFrame(() => {
-        //     document.body.removeChild(link)
-        //     URL.revokeObjectURL(blobUrl)
-        // })
+
+        printPdf()
     }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <ReactToPrint
-                content={() => componentRef.current}
-                trigger={() => (
-                    <button>
-                        Print this out!
-                    </button>
-                )}
-            />
-            {data ? <Pdf data={data} ref={componentRef} /> : null} 
             <Stack m={20}>
                 <Group position="apart">
                     <Title>
@@ -439,6 +420,12 @@ export const HourTable = (props: HourTableProps) => {
                     {format(new Date(), 'yyyy')}
                 </Text>
             </Stack>
+            {data ? (
+                <Pdf
+                    data={data}
+                    ref={pdfRef}
+                />
+            ) : null}
         </form>
     )
 }

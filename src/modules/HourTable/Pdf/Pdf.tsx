@@ -25,7 +25,7 @@ const TOTAL_COLUMN = 1
 const CATEGORY_COULMN_COUNT = ABSENT_CATEGORIES.length + PRESENT_CATEGORIES.length + TOTAL_COLUMN
 const PDF_COLUMNS = `130px 100px 100px repeat(${CATEGORY_COULMN_COUNT}, 20px)`
 
-// TODO: extract pdf header to a componnetn
+// TODO: extract pdf header to a component
 export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
     const { data } = props
 
@@ -37,13 +37,12 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
             spacing={5}
             sx={{
                 backgroundColor: 'white',
-                border: '1px solid red',
                 height: 850,
                 padding: '35px 10px',
                 width: 1100,
             }}
         >
-            <Group>
+            <Group position='apart'>
                 <Stack spacing={0}>
                     <Group>
                         <Text
@@ -215,6 +214,7 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                     {data.list.map((day) => {
                         return (
                             <Group
+                                key={day.date.toString()}
                                 sx={{
                                     backgroundColor: isSunday(day.date) ? theme.colors.gray[2] : 'white',
                                     borderBottom: '1px solid black',
@@ -251,6 +251,7 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
 
                                     return (
                                         <Text
+                                            key={category.name}
                                             align="center"
                                             size="xs"
                                             weight={value === 0 ? 400 : 600}
@@ -264,6 +265,7 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
 
                                     return (
                                         <Text
+                                            key={category.name}
                                             align="center"
                                             size="xs"
                                             weight={value === 0 ? 400 : 600}
@@ -307,10 +309,9 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                         return accumulator + day.present[category.name]
                     }, 0)
 
-                    console.log(totalCategoryHours)
-
                     return (
                         <Text
+                            key={category.label}
                             align="center"
                             size="xs"
                             weight="bold"
@@ -326,6 +327,7 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
 
                     return (
                         <Text
+                            key={category.label}
                             align="center"
                             size="xs"
                             weight="bold"
