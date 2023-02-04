@@ -2,8 +2,6 @@ import {
     Box
     ,
     Group,
-
-    SimpleGrid,
     Stack,
     Text,
     useMantineTheme,
@@ -42,7 +40,7 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                 width: 1100,
             }}
         >
-            <Group position='apart'>
+            <Group position="apart">
                 <Stack spacing={0}>
                     <Group>
                         <Text
@@ -63,31 +61,17 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                         33000 VIROVITICA, MASARYKOVA 14/1
                     </Text>
                 </Stack>
-                <SimpleGrid
-                    cols={2}
-                    sx={{ width: 450 }}
+                <Text
+                    size="xs"
+                    sx={{
+                        borderBottom: '1px solid black',
+                        paddingBottom: 20,
+                        width: 300,
+                    }}
+                    weight="bold"
                 >
-                    <Text
-                        size="xs"
-                        sx={{
-                            borderBottom: '1px solid black',
-                            paddingBottom: 20,
-                        }}
-                        weight="bold"
-                    >
-                        Odgovorna osoba:
-                    </Text>
-                    <Text
-                        size="xs"
-                        sx={{
-                            borderBottom: '1px solid black',
-                            paddingBottom: 20,
-                        }}
-                        weight="bold"
-                    >
-                        Kontrolirao:
-                    </Text>
-                </SimpleGrid>
+                    Odgovorna osoba:
+                </Text>
                 <Stack
                     align="center"
                     spacing={0}
@@ -251,8 +235,8 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
 
                                     return (
                                         <Text
-                                            key={category.name}
                                             align="center"
+                                            key={category.name}
                                             size="xs"
                                             weight={value === 0 ? 400 : 600}
                                         >
@@ -265,8 +249,8 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
 
                                     return (
                                         <Text
-                                            key={category.name}
                                             align="center"
+                                            key={category.name}
                                             size="xs"
                                             weight={value === 0 ? 400 : 600}
                                         >
@@ -311,8 +295,8 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
 
                     return (
                         <Text
-                            key={category.label}
                             align="center"
+                            key={category.label}
                             size="xs"
                             weight="bold"
                         >
@@ -327,8 +311,8 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
 
                     return (
                         <Text
-                            key={category.label}
                             align="center"
+                            key={category.label}
                             size="xs"
                             weight="bold"
                         >
