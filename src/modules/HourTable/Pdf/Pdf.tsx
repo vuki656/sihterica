@@ -40,7 +40,7 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
     const { data } = props
 
     return (
-        <Box
+        <Group
             ref={ref}
             sx={{
                 backgroundColor: 'white',
@@ -51,54 +51,55 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
             }}
         >
             <Group>
-                <Group>
-                    <Stack spacing={0}>
-                        <Group>
-                            <Text
-                                align="left"
-                                size="xl"
-                                weight="bold"
-                            >
-                                EVIDENCIJA O RADNOM VREMENU
-                            </Text>
-                        </Group>
-                        <Text
-                            size="xs"
-                            weight="bold"
-                        >
-                            KNJIGOVODSTVENI SERVIS LIBER, Tanja Vuković
-                        </Text>
-                        <Text size="xs">
-                            33000 VIROVITICA, MASARYKOVA 14/1
-                        </Text>
-                    </Stack>
-                    <SimpleGrid
-                        cols={2}
-                        sx={{ width: 450 }}
-                    >
-                        <Text
-                            size="xs"
-                            sx={{
-                                borderBottom: '1px solid black',
-                                paddingBottom: 20,
-                            }}
-                            weight="bold"
-                        >
-                            Odgovorna osoba:
-                        </Text>
-                        <Text
-                            size="xs"
-                            sx={{
-                                borderBottom: '1px solid black',
-                                paddingBottom: 20,
-                            }}
-                            weight="bold"
-                        >
-                            Kontrolirao:
-                        </Text>
-                    </SimpleGrid>
-                </Group>
                 <Stack spacing={0}>
+                    <Group>
+                        <Text
+                            align="left"
+                            size="xl"
+                            weight="bold"
+                        >
+                            EVIDENCIJA O RADNOM VREMENU
+                        </Text>
+                    </Group>
+                    <Text
+                        size="xs"
+                        weight="bold"
+                    >
+                        KNJIGOVODSTVENI SERVIS LIBER, Tanja Vuković
+                    </Text>
+                    <Text size="xs">
+                        33000 VIROVITICA, MASARYKOVA 14/1
+                    </Text>
+                </Stack>
+                <SimpleGrid
+                    cols={2}
+                    sx={{ width: 450 }}
+                >
+                    <Text
+                        size="xs"
+                        sx={{
+                            borderBottom: '1px solid black',
+                            paddingBottom: 20,
+                        }}
+                        weight="bold"
+                    >
+                        Odgovorna osoba:
+                    </Text>
+                    <Text
+                        size="xs"
+                        sx={{
+                            borderBottom: '1px solid black',
+                            paddingBottom: 20,
+                        }}
+                        weight="bold"
+                    >
+                        Kontrolirao:
+                    </Text>
+                </SimpleGrid>
+                <Stack
+                    align="center"
+                    spacing={0}
+                >
                     <Text
                         size="xs"
                         weight="bold"
@@ -142,138 +143,137 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                         </Text>
                     </Group>
                 </Stack>
-                <Group
-                    sx={{
-                        display: 'grid',
-                        gridTemplateColumns: PDF_COLUMNS,
-                        justifyContent: 'center',
-                        width: '100%',
-                    }}
-                >
-                    <Text size="xs">
-                        Datum
-                    </Text>
-                    <Text size="xs">
-                        Od - Do
-                    </Text>
-                    <Text
-                        size="xs"
-                        sx={{
-                            alignItems: 'center',
-                            display: 'flex',
-                            fontWeight: 'bold',
-                            height: 80,
-                            transform: 'rotate(-180deg)',
-                            writingMode: 'vertical-rl',
-                        }}
-                    >
-                        Ukupno
-                    </Text>
-                    {PRESENT_CATEGORIES.map((category) => {
-                        return (
-                            <Text
-                                key={category.label}
-                                size="xs"
-                                sx={{
-                                    alignItems: 'center',
-                                    display: 'flex',
-                                    fontWeight: 'bold',
-                                    height: 80,
-                                    transform: 'rotate(-180deg)',
-                                    writingMode: 'vertical-rl',
-                                }}
-                            >
-                                {category.label}
-                            </Text>
-                        )
-                    })}
-                    {ABSENT_CATEGORIES.map((category) => {
-                        return (
-                            <Text
-                                key={category.label}
-                                size="xs"
-                                sx={{
-                                    alignItems: 'center',
-                                    display: 'flex',
-                                    fontWeight: 'bold',
-                                    height: 80,
-                                    transform: 'rotate(-180deg)',
-                                    writingMode: 'vertical-rl',
-                                }}
-                            >
-                                {category.label}
-                            </Text>
-                        )
-                    })}
-                </Group>
-                <Box>
-                    {data.list.map((day) => {
-                        return (
-                            <Group
-                                sx={{
-                                    display: 'grid',
-                                    gridTemplateColumns: PDF_COLUMNS,
-                                    justifyContent: 'center',
-                                    width: '100%',
-                                }}
-                            >
-                                <Text size="xs">
-                                    {dayjs(day.date).format('DD.MM.YYYY')}
-                                </Text>
-                                <Text size="xs">
-                                    {day.startHour ? dayjs(day.startHour).format('HH') : ''}
-                                    {' '}
-                                    -
-                                    {day.endHour ? dayjs(day.endHour).format('HH') : ''}
-                                </Text>
-                                <Text
-                                    align="center"
-                                    size="xs"
-                                    weight="bold"
-                                >
-                                    {day.startHour ? Object.values(day.present).reduce((accumulator, dayHours) => {
-                                        return accumulator + dayHours
-                                    }, 0) : '-'}
-                                </Text>
-                                {PRESENT_CATEGORIES.map((category) => {
-                                    return (
-                                        <Text
-                                            align="center"
-                                            size="xs"
-                                        >
-                                            {day.present[category.name]}
-                                        </Text>
-                                    )
-                                })}
-                                {ABSENT_CATEGORIES.map((category) => {
-                                    return (
-                                        <Text
-                                            align="center"
-                                            size="xs"
-                                        >
-                                            {day.absent[category.name]}
-                                        </Text>
-                                    )
-                                })}
-                            </Group>
-                        )
-                    })}
-                </Box>
-                <Box
-                    sx={{
-                        borderTop: '1px solid black',
-                        display: 'grid',
-                        gridTemplateColumns: PDF_COLUMNS,
-                    }}
-                >
-                    <Text
-                        align="center"
-                        size="xs"
-                    >
-                        20
-                    </Text>
-                </Box>
             </Group>
-        </Box>
+            <Group
+                sx={{
+                    display: 'grid',
+                    gridTemplateColumns: PDF_COLUMNS,
+                    justifyContent: 'center',
+                }}
+            >
+                <Text size="xs">
+                    Datum
+                </Text>
+                <Text size="xs">
+                    Od - Do
+                </Text>
+                <Text
+                    size="xs"
+                    sx={{
+                        alignItems: 'center',
+                        display: 'flex',
+                        fontWeight: 'bold',
+                        height: 80,
+                        transform: 'rotate(-180deg)',
+                        writingMode: 'vertical-rl',
+                    }}
+                >
+                    Ukupno
+                </Text>
+                {PRESENT_CATEGORIES.map((category) => {
+                    return (
+                        <Text
+                            key={category.label}
+                            size="xs"
+                            sx={{
+                                alignItems: 'center',
+                                display: 'flex',
+                                fontWeight: 'bold',
+                                height: 80,
+                                transform: 'rotate(-180deg)',
+                                writingMode: 'vertical-rl',
+                            }}
+                        >
+                            {category.label}
+                        </Text>
+                    )
+                })}
+                {ABSENT_CATEGORIES.map((category) => {
+                    return (
+                        <Text
+                            key={category.label}
+                            size="xs"
+                            sx={{
+                                alignItems: 'center',
+                                display: 'flex',
+                                fontWeight: 'bold',
+                                height: 80,
+                                transform: 'rotate(-180deg)',
+                                writingMode: 'vertical-rl',
+                            }}
+                        >
+                            {category.label}
+                        </Text>
+                    )
+                })}
+            </Group>
+            <Box>
+                {data.list.map((day) => {
+                    return (
+                        <Group
+                            sx={{
+                                display: 'grid',
+                                gridTemplateColumns: PDF_COLUMNS,
+                                justifyContent: 'center',
+                                width: '100%',
+                            }}
+                        >
+                            <Text size="xs">
+                                {dayjs(day.date).format('DD.MM.YYYY')}
+                            </Text>
+                            <Text size="xs">
+                                {day.startHour ? dayjs(day.startHour).format('HH') : ''}
+                                {' '}
+                                -
+                                {day.endHour ? dayjs(day.endHour).format('HH') : ''}
+                            </Text>
+                            <Text
+                                align="center"
+                                size="xs"
+                                weight="bold"
+                            >
+                                {day.startHour ? Object.values(day.present).reduce((accumulator, dayHours) => {
+                                    return accumulator + dayHours
+                                }, 0) : '-'}
+                            </Text>
+                            {PRESENT_CATEGORIES.map((category) => {
+                                return (
+                                    <Text
+                                        align="center"
+                                        size="xs"
+                                    >
+                                        {day.present[category.name]}
+                                    </Text>
+                                )
+                            })}
+                            {ABSENT_CATEGORIES.map((category) => {
+                                return (
+                                    <Text
+                                        align="center"
+                                        size="xs"
+                                    >
+                                        {day.absent[category.name]}
+                                    </Text>
+                                )
+                            })}
+                        </Group>
+                    )
+                })}
+            </Box>
+            <Box
+                sx={{
+                    borderTop: '1px solid black',
+                    display: 'grid',
+                    gridTemplateColumns: PDF_COLUMNS,
+                }}
+            >
+                <Text
+                    align="center"
+                    size="xs"
+                >
+                    20
+                </Text>
+            </Box>
+        </Group>
     )
 })
