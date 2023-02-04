@@ -66,7 +66,6 @@ const SHIFT_END_TIME = 16
 // TODO: total hours for the column
 // TODO: performance is trash
 // FIXME: you can put blank value inside an hour box
-// FIXME: remove pdf from the bottom after print
 export const HourTable = (props: HourTableProps) => {
     const { nonWorkingDays } = props
 
@@ -76,6 +75,9 @@ export const HourTable = (props: HourTableProps) => {
 
     const printPdf = useReactToPrint({
         content: () => pdfRef.current,
+        onAfterPrint: () => {
+            setData(null)
+        }
     })
 
     const days = useMemo(() => {
