@@ -25,7 +25,6 @@ const DEFAULT_FONT_SIZE = 8
 export const styles = StyleSheet.create({
     day: {
         alignItems: 'center',
-        borderBottom: '1px solid #A6A7AB',
         display: 'flex',
         flexDirection: 'row',
         fontSize: DEFAULT_FONT_SIZE,
@@ -54,11 +53,11 @@ export const styles = StyleSheet.create({
         justifyContent: 'flex-start',
     },
     category: {
-        // textOrientation: 'revert',
+        textAlign: 'center',
         transform: 'rotate(-90deg)',
         width: 30,
-        height: 10
-        // writingMode: 'vertical-rl',
+        height: 10,
+        marginBottom: 15
     }
 })
 
@@ -79,7 +78,7 @@ export const Pdf = (props: PdfProps) => {
                     <Text style={{ width: 100 }}>
                         Datum
                     </Text>
-                    <Text style={{ width: 60 }}>
+                    <Text style={{ width: 60, textAlign: 'center' }}>
                         Od - Do
                     </Text>
                     {PRESENT_CATEGORIES.map((category) => {
