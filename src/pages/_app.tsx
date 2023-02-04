@@ -3,18 +3,15 @@ import { setDefaultOptions } from 'date-fns'
 import { hr } from 'date-fns/locale'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import { useEffect } from 'react'
 import 'dayjs/locale/hr'
+
+setDefaultOptions({ locale: hr })
 
 const App = (props: AppProps) => {
     const {
         Component,
         pageProps,
     } = props
-
-    useEffect(() => {
-        setDefaultOptions({ locale: hr })
-    }, [])
 
     return (
         <>
