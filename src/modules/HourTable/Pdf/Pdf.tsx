@@ -18,30 +18,16 @@ import {
 import type { PdfProps } from './Pdf.types'
 
 const TOTAL_COLUMN = 1
-const PDF_COLUMNS = `70px 55px 30px repeat(${ABSENT_CATEGORIES.length + PRESENT_CATEGORIES.length + TOTAL_COLUMN}, 28px)`
+const PDF_COLUMNS = `70px 50px 1fr repeat(${ABSENT_CATEGORIES.length + PRESENT_CATEGORIES.length + TOTAL_COLUMN}, 28px)`
 
-const PdfText = (props: TextProps) => {
-    const {
-        children,
-        ...other
-    } = props
-
-    return (
-        <Text
-            size="xs"
-            {...other}
-        >
-            {children}
-        </Text>
-    )
-}
-
+// TODO: extract pdf header to a componnetn
 export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
     const { data } = props
 
     return (
-        <Group
+        <Stack
             ref={ref}
+            spacing={5}
             sx={{
                 backgroundColor: 'white',
                 border: '1px solid red',
@@ -146,15 +132,23 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
             </Group>
             <Group
                 sx={{
+                    alignItems: 'flex-end',
+                    borderTop: '1px solid black',
                     display: 'grid',
                     gridTemplateColumns: PDF_COLUMNS,
-                    justifyContent: 'center',
+                    padding: '10px 0',
                 }}
             >
-                <Text size="xs">
+                <Text
+                    size="xs"
+                    weight="bold"
+                >
                     Datum
                 </Text>
-                <Text size="xs">
+                <Text
+                    size="xs"
+                    weight="bold"
+                >
                     Od - Do
                 </Text>
                 <Text
@@ -163,7 +157,7 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                         alignItems: 'center',
                         display: 'flex',
                         fontWeight: 'bold',
-                        height: 80,
+                        height: 100,
                         transform: 'rotate(-180deg)',
                         writingMode: 'vertical-rl',
                     }}
@@ -179,7 +173,7 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                                 alignItems: 'center',
                                 display: 'flex',
                                 fontWeight: 'bold',
-                                height: 80,
+                                height: 100,
                                 transform: 'rotate(-180deg)',
                                 writingMode: 'vertical-rl',
                             }}
@@ -197,7 +191,7 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                                 alignItems: 'center',
                                 display: 'flex',
                                 fontWeight: 'bold',
-                                height: 80,
+                                height: 100,
                                 transform: 'rotate(-180deg)',
                                 writingMode: 'vertical-rl',
                             }}
@@ -274,6 +268,6 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                     20
                 </Text>
             </Box>
-        </Group>
+        </Stack>
     )
 })
