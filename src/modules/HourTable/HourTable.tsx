@@ -74,6 +74,7 @@ export const HourTable = (props: HourTableProps) => {
         handleSubmit,
         register,
     } = useForm<HourTableFormValueType>({
+        reValidateMode: 'onSubmit',
         defaultValues: {
             fullName: '',
             list: days.map((day) => {
