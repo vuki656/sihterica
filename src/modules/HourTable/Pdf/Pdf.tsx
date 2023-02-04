@@ -1,11 +1,12 @@
-import type { TextProps } from '@mantine/core'
 import {
-    Box,
-
+    Box
+    ,
     Group,
+
     SimpleGrid,
     Stack,
     Text,
+    useMantineTheme,
 } from '@mantine/core'
 import dayjs from 'dayjs'
 import { forwardRef } from 'react'
@@ -18,11 +19,13 @@ import {
 import type { PdfProps } from './Pdf.types'
 
 const TOTAL_COLUMN = 1
-const PDF_COLUMNS = `70px 50px 1fr repeat(${ABSENT_CATEGORIES.length + PRESENT_CATEGORIES.length + TOTAL_COLUMN}, 28px)`
+const PDF_COLUMNS = `130px 50px 1fr repeat(${ABSENT_CATEGORIES.length + PRESENT_CATEGORIES.length + TOTAL_COLUMN}, 20px)`
 
 // TODO: extract pdf header to a componnetn
 export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
     const { data } = props
+
+    const theme = useMantineTheme()
 
     return (
         <Stack
@@ -130,133 +133,139 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                     </Group>
                 </Stack>
             </Group>
-            <Group
-                sx={{
-                    alignItems: 'flex-end',
-                    borderTop: '1px solid black',
-                    display: 'grid',
-                    gridTemplateColumns: PDF_COLUMNS,
-                    padding: '10px 0',
-                }}
-            >
-                <Text
-                    size="xs"
-                    weight="bold"
-                >
-                    Datum
-                </Text>
-                <Text
-                    size="xs"
-                    weight="bold"
-                >
-                    Od - Do
-                </Text>
-                <Text
-                    size="xs"
+            <Stack spacing={0}>
+                <Group
                     sx={{
-                        alignItems: 'center',
-                        display: 'flex',
-                        fontWeight: 'bold',
-                        height: 100,
-                        transform: 'rotate(-180deg)',
-                        writingMode: 'vertical-rl',
+                        alignItems: 'flex-end',
+                        borderBottom: '1px solid black',
+                        borderTop: '1px solid black',
+                        display: 'grid',
+                        gridTemplateColumns: PDF_COLUMNS,
+                        padding: '10px 0',
                     }}
                 >
-                    Ukupno
-                </Text>
-                {PRESENT_CATEGORIES.map((category) => {
-                    return (
-                        <Text
-                            key={category.label}
-                            size="xs"
-                            sx={{
-                                alignItems: 'center',
-                                display: 'flex',
-                                fontWeight: 'bold',
-                                height: 100,
-                                transform: 'rotate(-180deg)',
-                                writingMode: 'vertical-rl',
-                            }}
-                        >
-                            {category.label}
-                        </Text>
-                    )
-                })}
-                {ABSENT_CATEGORIES.map((category) => {
-                    return (
-                        <Text
-                            key={category.label}
-                            size="xs"
-                            sx={{
-                                alignItems: 'center',
-                                display: 'flex',
-                                fontWeight: 'bold',
-                                height: 100,
-                                transform: 'rotate(-180deg)',
-                                writingMode: 'vertical-rl',
-                            }}
-                        >
-                            {category.label}
-                        </Text>
-                    )
-                })}
-            </Group>
-            <Box>
-                {data.list.map((day) => {
-                    return (
-                        <Group
-                            sx={{
-                                display: 'grid',
-                                gridTemplateColumns: PDF_COLUMNS,
-                                justifyContent: 'center',
-                                width: '100%',
-                            }}
-                        >
-                            <Text size="xs">
-                                {dayjs(day.date).format('DD.MM.YYYY')}
-                            </Text>
-                            <Text size="xs">
-                                {day.startHour ? dayjs(day.startHour).format('HH') : ''}
-                                {' '}
-                                -
-                                {day.endHour ? dayjs(day.endHour).format('HH') : ''}
-                            </Text>
+                    <Text
+                        size="xs"
+                        weight="bold"
+                    >
+                        Datum
+                    </Text>
+                    <Text
+                        size="xs"
+                        weight="bold"
+                    >
+                        Od - Do
+                    </Text>
+                    <Text
+                        size="xs"
+                        sx={{
+                            alignItems: 'center',
+                            display: 'flex',
+                            fontWeight: 'bold',
+                            height: 100,
+                            transform: 'rotate(-180deg)',
+                            writingMode: 'vertical-rl',
+                        }}
+                    >
+                        Ukupno
+                    </Text>
+                    {PRESENT_CATEGORIES.map((category) => {
+                        return (
                             <Text
-                                align="center"
+                                key={category.label}
                                 size="xs"
-                                weight="bold"
+                                sx={{
+                                    alignItems: 'center',
+                                    display: 'flex',
+                                    fontWeight: 'bold',
+                                    height: 100,
+                                    transform: 'rotate(-180deg)',
+                                    writingMode: 'vertical-rl',
+                                }}
                             >
-                                {day.startHour ? Object.values(day.present).reduce((accumulator, dayHours) => {
-                                    return accumulator + dayHours
-                                }, 0) : '-'}
+                                {category.label}
                             </Text>
-                            {PRESENT_CATEGORIES.map((category) => {
-                                return (
-                                    <Text
-                                        align="center"
-                                        size="xs"
-                                    >
-                                        {day.present[category.name]}
-                                    </Text>
-                                )
-                            })}
-                            {ABSENT_CATEGORIES.map((category) => {
-                                return (
-                                    <Text
-                                        align="center"
-                                        size="xs"
-                                    >
-                                        {day.absent[category.name]}
-                                    </Text>
-                                )
-                            })}
-                        </Group>
-                    )
-                })}
-            </Box>
+                        )
+                    })}
+                    {ABSENT_CATEGORIES.map((category) => {
+                        return (
+                            <Text
+                                key={category.label}
+                                size="xs"
+                                sx={{
+                                    alignItems: 'center',
+                                    display: 'flex',
+                                    fontWeight: 'bold',
+                                    height: 100,
+                                    transform: 'rotate(-180deg)',
+                                    writingMode: 'vertical-rl',
+                                }}
+                            >
+                                {category.label}
+                            </Text>
+                        )
+                    })}
+                </Group>
+                <Box>
+                    {data.list.map((day) => {
+                        return (
+                            <Group
+                                sx={{
+                                    borderBottom: '1px solid black',
+                                    display: 'grid',
+                                    gridTemplateColumns: PDF_COLUMNS,
+                                    justifyContent: 'center',
+                                    width: '100%',
+                                }}
+                            >
+                                <Text size="xs">
+                                    {dayjs(day.date).format('DD.MM.YYYY dddd')}
+                                </Text>
+                                <Text
+                                    align="center"
+                                    size="xs"
+                                >
+                                    {day.startHour ? dayjs(day.startHour).format('HH') : ''}
+                                    {' '}
+                                    -
+                                    {day.endHour ? dayjs(day.endHour).format('HH') : ''}
+                                </Text>
+                                <Text
+                                    align="center"
+                                    size="xs"
+                                    weight="bold"
+                                >
+                                    {day.startHour ? Object.values(day.present).reduce((accumulator, dayHours) => {
+                                        return accumulator + dayHours
+                                    }, 0) : '-'}
+                                </Text>
+                                {PRESENT_CATEGORIES.map((category) => {
+                                    return (
+                                        <Text
+                                            align="center"
+                                            size="xs"
+                                        >
+                                            {day.present[category.name]}
+                                        </Text>
+                                    )
+                                })}
+                                {ABSENT_CATEGORIES.map((category) => {
+                                    return (
+                                        <Text
+                                            align="center"
+                                            size="xs"
+                                        >
+                                            {day.absent[category.name]}
+                                        </Text>
+                                    )
+                                })}
+                            </Group>
+                        )
+                    })}
+                </Box>
+            </Stack>
             <Box
                 sx={{
-                    borderTop: '1px solid black',
                     display: 'grid',
                     gridTemplateColumns: PDF_COLUMNS,
                 }}
