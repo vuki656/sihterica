@@ -12,6 +12,7 @@ import {
     Tooltip,
 } from '@mantine/core'
 import { TimeInput } from '@mantine/dates'
+import { pdf } from '@react-pdf/renderer'
 import {
     IconBeach,
     IconPrinter,
@@ -28,11 +29,16 @@ import {
     startOfDay,
     startOfMonth,
 } from 'date-fns'
-import { useMemo, useState } from 'react'
+import dayjs from 'dayjs'
+import {
+    useMemo,
+    useRef,
+} from 'react'
 import {
     Controller,
     useForm,
 } from 'react-hook-form'
+import ReactToPrint from 'react-to-print'
 
 import { HourInput } from './HourInput'
 import {
@@ -45,13 +51,12 @@ import type {
     HourTableProps,
 } from './HourTable.types'
 import { monthValidation } from './HourTable.validation'
+import { Pdf } from './Pdf'
 
 import {
     capitalize,
     extractFormFieldError,
 } from '@/shared/utils'
-import { Pdf } from './Pdf'
-import { pdf } from '@react-pdf/renderer'
 
 const COLUMNS = `200px 80px 80px repeat(${ABSENT_CATEGORIES.length + PRESENT_CATEGORIES.length}, auto)`
 
@@ -64,6 +69,8 @@ const SHIFT_END_TIME = 16
 // FIXME: you can put blank value inside an hour box
 export const HourTable = (props: HourTableProps) => {
     const { nonWorkingDays } = props
+
+    const componentRef = useRef<HTMLDivElement | null>(null)
 
     const days = useMemo(() => {
         return eachDayOfInterval({
@@ -78,7 +85,6 @@ export const HourTable = (props: HourTableProps) => {
         handleSubmit,
         register,
     } = useForm<HourTableFormValueType>({
-        reValidateMode: 'onSubmit',
         defaultValues: {
             fullName: '',
             list: days.map((day) => {
@@ -112,30 +118,91 @@ export const HourTable = (props: HourTableProps) => {
                 }
             }),
         },
+        reValidateMode: 'onSubmit',
         resolver: zodResolver(monthValidation),
     })
 
     const onSubmit = async (formValue: HourTableFormValueType) => {
-            const blob = await pdf(( <Pdf data={formValue} />)).toBlob()
+        const blob = await pdf((<Pdf data={formValue} />)).toBlob()
 
-            const blobUrl = URL.createObjectURL(blob)
-            const link = document.createElement('a')
+        const blobUrl = URL.createObjectURL(blob)
+        const link = document.createElement('a')
 
-            link.href = blobUrl
-            link.download = `${formValue.fullName}-sihterica.pdf`
+        link.href = blobUrl
+        link.download = `${formValue.fullName}-sihterica.pdf`
 
-            document.body.appendChild(link)
+        document.body.appendChild(link)
 
-            link.click()
+        link.click()
 
-            window.requestAnimationFrame(() => {
-                document.body.removeChild(link)
-                URL.revokeObjectURL(blobUrl)
-            })
+        window.requestAnimationFrame(() => {
+            document.body.removeChild(link)
+            URL.revokeObjectURL(blobUrl)
+        })
     }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
+            <ReactToPrint
+                content={() => componentRef.current}
+                trigger={() => (
+                    <button>
+                        Print this out!
+                    </button>
+                )}
+            />
+            <Box
+                ref={componentRef}
+                sx={{
+                    backgroundColor: 'white',
+                    height: 850,
+                    width: 1100,
+                    boxSizing: 'border-box',
+                    padding: '15px 10px',
+                    border: '1px solid red',
+                }}
+            >
+                <Stack spacing={1}>
+                    <Group position='apart'>
+                        <Text size="sm">
+                            KNJIGOVODSTVENI SERVIS LIBER, Tanja Vuković
+                        </Text>
+                        <Text size="sm">
+                            33000 VIROVITICA, MASARYKOVA 14/1
+                        </Text>
+                    </Group>
+                    <Group position="apart">
+                        <Text size="sm">
+                            Odgovorna osoba: TANJA VUKOVIĆ
+                        </Text>
+                        <Text size="sm">
+                            (Kontrolirao: )
+                        </Text>
+                    </Group>
+                    <Group position='apart'>
+                        <Text size='sm'>
+                            Mjesec:
+                            {' '}
+                            {dayjs(new Date()).format('MMMM')}
+                        </Text>
+                        <Text size='sm'>
+                            Godina:
+                            {' '}
+                            {dayjs(new Date()).format('YYYY')}
+                        </Text>
+                        <Text size='sm'>
+                            Radnik:
+                            {' '}
+                            Pero Peric
+                        </Text>
+                        <Text size='sm'>
+                            Za datum
+                            {' '}
+                            {dayjs(new Date()).format('DD.MM.YYYY')}
+                        </Text>
+                    </Group>
+                </Stack>
+            </Box>
             <Stack m={20}>
                 <Group position="apart">
                     <Title>

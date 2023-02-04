@@ -5,8 +5,11 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import 'dayjs/locale/hr'
 import { GlobalStyles } from '@/Components'
+import dayjs from 'dayjs'
 
 setDefaultOptions({ locale: hr })
+
+dayjs.locale('hr')
 
 const App = (props: AppProps) => {
     const {

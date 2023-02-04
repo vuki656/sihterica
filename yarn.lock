@@ -4277,6 +4277,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-to-print@npm:^2.14.11":
+  version: 2.14.11
+  resolution: "react-to-print@npm:2.14.11"
+  dependencies:
+    prop-types: ^15.8.1
+  peerDependencies:
+    react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: c38c17092b92dc5ad33011635892ee4cede68aba29c0691d33274e236034dd9138cc432b902d0a2ee769a783f1e412ee42f8a5155231285a38c82200ab48f035
+  languageName: node
+  linkType: hard
+
 "react@npm:18.2.0":
   version: 18.2.0
   resolution: "react@npm:18.2.0"
@@ -4610,6 +4622,7 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
     react-hook-form: ^7.43.0
+    react-to-print: ^2.14.11
     typescript: 4.9.5
     zod: ^3.20.2
   languageName: unknown

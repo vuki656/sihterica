@@ -1,5 +1,2 @@
--   [ ] Load holidays and set them to 0, make that row different color
--   [ ] How to display form errors - notifs??
--   [ ] Make everything smaller
--   [ ] vertical hover borders for column and horizontal borders for row
--   [ ] remove datefns - ??? day range ??? 
+-   [ ] vertical hover borders for column
+-   [ ] replace datefns with dayjs!
