@@ -131,7 +131,9 @@ export const HourTable = (props: HourTableProps) => {
     const onSubmit = async (formValue: HourTableFormValueType) => {
         setData(formValue)
 
-        printPdf()
+        window.requestAnimationFrame(() => {
+            printPdf()
+        })
     }
 
     return (
