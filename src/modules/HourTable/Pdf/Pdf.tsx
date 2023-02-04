@@ -53,9 +53,12 @@ export const styles = StyleSheet.create({
     },
     category: {
         textAlign: 'left',
+        display: 'flex',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
         transform: 'rotate(-90deg)',
         width: 120,
-        height: 10,
+        height: 30,
         marginLeft: -90,
         paddingLeft: 30
     }
@@ -83,16 +86,21 @@ export const Pdf = (props: PdfProps) => {
                     </Text>
                     {PRESENT_CATEGORIES.map((category) => {
                         return (
-                            <Text style={styles.category}>
-                                {category.label}
-                            </Text>
+                            <View style={styles.category}>
+                                <Text>
+                                    {category.label}
+                                </Text>
+                            </View>
                         )
                     })}
                     {ABSENT_CATEGORIES.map((category) => {
                         return (
-                            <Text style={styles.category}>
-                                {category.label}
-                            </Text>
+                            <View style={styles.category}>
+                                <Text>
+                                    {category.label}
+                                </Text>
+
+                            </View>
                         )
                     })}
                 </View>
