@@ -21,7 +21,7 @@ const App = (props: AppProps) => {
         <>
             <Head>
                 <title>
-                    Sihterica
+                    eSihterica
                 </title>
                 <meta
                     content="minimum-scale=1, initial-scale=1, width=device-width"
