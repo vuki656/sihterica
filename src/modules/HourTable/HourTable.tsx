@@ -28,7 +28,7 @@ import {
     startOfDay,
     startOfMonth,
 } from 'date-fns'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import {
     Controller,
     useForm,
@@ -50,6 +50,8 @@ import {
     capitalize,
     extractFormFieldError,
 } from '@/shared/utils'
+import { Pdf } from './Pdf'
+import { pdf } from '@react-pdf/renderer'
 
 const COLUMNS = `200px 80px 80px repeat(${ABSENT_CATEGORIES.length + PRESENT_CATEGORIES.length}, auto)`
 
@@ -58,6 +60,8 @@ const SHIFT_END_TIME = 16
 
 // TODO: total hours for day row
 // TODO: total hours for the column
+// TODO: performance is trash
+// FIXME: you can put blank value inside an hour box
 export const HourTable = (props: HourTableProps) => {
     const { nonWorkingDays } = props
 
@@ -111,9 +115,23 @@ export const HourTable = (props: HourTableProps) => {
         resolver: zodResolver(monthValidation),
     })
 
-    const onSubmit = (formValue: HourTableFormValueType) => {
-        // eslint-disable-next-line no-console
-        console.info(formValue)
+    const onSubmit = async (formValue: HourTableFormValueType) => {
+            const blob = await pdf(( <Pdf data={formValue} />)).toBlob()
+
+            const blobUrl = URL.createObjectURL(blob)
+            const link = document.createElement('a')
+
+            link.href = blobUrl
+            link.download = `${formValue.fullName}-sihterica.pdf`
+
+            document.body.appendChild(link)
+
+            link.click()
+
+            window.requestAnimationFrame(() => {
+                document.body.removeChild(link)
+                URL.revokeObjectURL(blobUrl)
+            })
     }
 
     return (
@@ -377,7 +395,7 @@ export const HourTable = (props: HourTableProps) => {
                                                         <HourInput
                                                             onChange={(value) => {
                                                                 if (!value) {
-                                                                    controller.field.onChange(null)
+                                                                    controller.field.onChange(0)
 
                                                                     return
                                                                 }
