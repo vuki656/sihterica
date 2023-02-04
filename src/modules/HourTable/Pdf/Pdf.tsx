@@ -49,15 +49,15 @@ export const styles = StyleSheet.create({
         display: 'flex',
         fontSize: DEFAULT_FONT_SIZE,
         flexDirection: 'row',
-        alignItems: 'flex-start',
-        justifyContent: 'flex-start',
+        marginBottom: 30,
     },
     category: {
-        textAlign: 'center',
+        textAlign: 'left',
         transform: 'rotate(-90deg)',
-        width: 30,
+        width: 120,
         height: 10,
-        marginBottom: 15
+        marginLeft: -90,
+        paddingLeft: 30
     }
 })
 
@@ -78,7 +78,7 @@ export const Pdf = (props: PdfProps) => {
                     <Text style={{ width: 100 }}>
                         Datum
                     </Text>
-                    <Text style={{ width: 60, textAlign: 'center' }}>
+                    <Text style={{ width: 60, textAlign: 'center', marginRight: 90 }}>
                         Od - Do
                     </Text>
                     {PRESENT_CATEGORIES.map((category) => {
