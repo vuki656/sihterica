@@ -50,52 +50,98 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                 width: 1100,
             }}
         >
-            <Group spacing={0}>
+            <Group>
+                <Group>
+                    <Stack spacing={0}>
+                        <Group>
+                            <Text
+                                align="left"
+                                size="xl"
+                                weight="bold"
+                            >
+                                EVIDENCIJA O RADNOM VREMENU
+                            </Text>
+                        </Group>
+                        <Text
+                            size="xs"
+                            weight="bold"
+                        >
+                            KNJIGOVODSTVENI SERVIS LIBER, Tanja Vuković
+                        </Text>
+                        <Text size="xs">
+                            33000 VIROVITICA, MASARYKOVA 14/1
+                        </Text>
+                    </Stack>
+                    <SimpleGrid
+                        cols={2}
+                        sx={{ width: 450 }}
+                    >
+                        <Text
+                            size="xs"
+                            sx={{
+                                borderBottom: '1px solid black',
+                                paddingBottom: 20,
+                            }}
+                            weight="bold"
+                        >
+                            Odgovorna osoba:
+                        </Text>
+                        <Text
+                            size="xs"
+                            sx={{
+                                borderBottom: '1px solid black',
+                                paddingBottom: 20,
+                            }}
+                            weight="bold"
+                        >
+                            Kontrolirao:
+                        </Text>
+                    </SimpleGrid>
+                </Group>
                 <Stack spacing={0}>
                     <Text
-                        size="sm"
+                        size="xs"
                         weight="bold"
                     >
-                        KNJIGOVODSTVENI SERVIS LIBER, Tanja Vuković
+                        {
+                            dayjs(new Date())
+                                .format('MMMM')
+                                .toUpperCase()
+                        }
                     </Text>
-                    <Text size="xs">
-                        33000 VIROVITICA, MASARYKOVA 14/1
-                    </Text>
-                    <Group>
-                        <Text
-                            size="sm"
-                            weight="bold"
-                        >
-                            {dayjs(new Date()).format('MMMM')
-                                .toUpperCase()}
-                        </Text>
-                        <Text
-                            size="sm"
-                            weight="bold"
-                        >
-                            {dayjs(new Date()).format('YYYY')}
-                        </Text>
-                    </Group>
-                    <Text size="sm">
-                        Radnik:
-                        {' '}
-                        {data.fullName}
-                    </Text>
-                    <Text size="sm">
-                        Za datum
-                        {' '}
-                        {dayjs(new Date()).format('DD.MM.YYYY')}
+                    <Text
+                        size="xs"
+                        weight="bold"
+                    >
+                        {dayjs(new Date()).format('YYYY')}
                     </Text>
                 </Stack>
-                <SimpleGrid cols={2}>
-                    <Text size="sm">
-                        Odgovorna osoba: TANJA VUKOVIĆ
-                    </Text>
-                    <Text size="sm">
-                        Kontrolirao:
-                    </Text>
-                </SimpleGrid>
-                <Group position="apart" />
+                <Stack spacing={0}>
+                    <Group position="apart">
+                        <Text
+                            size="xs"
+                            weight="bold"
+                        >
+                            Radnik:
+                        </Text>
+                        {' '}
+                        <Text size="xs">
+                            {data.fullName}
+                        </Text>
+                    </Group>
+                    <Group position="apart">
+                        <Text
+                            size="xs"
+                            weight="bold"
+                        >
+                            Za Datum:
+                        </Text>
+                        {' '}
+                        <Text size="xs">
+                            {dayjs(new Date()).format('DD.MM.YYYY')}
+                        </Text>
+                    </Group>
+                </Stack>
                 <Group
                     sx={{
                         display: 'grid',
@@ -104,13 +150,23 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                         width: '100%',
                     }}
                 >
-                    <Text>
+                    <Text size="xs">
                         Datum
                     </Text>
-                    <Text>
+                    <Text size="xs">
                         Od - Do
                     </Text>
-                    <Text>
+                    <Text
+                        size="xs"
+                        sx={{
+                            alignItems: 'center',
+                            display: 'flex',
+                            fontWeight: 'bold',
+                            height: 80,
+                            transform: 'rotate(-180deg)',
+                            writingMode: 'vertical-rl',
+                        }}
+                    >
                         Ukupno
                     </Text>
                     {PRESENT_CATEGORIES.map((category) => {
@@ -161,10 +217,10 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                                     width: '100%',
                                 }}
                             >
-                                <Text size="sm">
+                                <Text size="xs">
                                     {dayjs(day.date).format('DD.MM.YYYY')}
                                 </Text>
-                                <Text size="sm">
+                                <Text size="xs">
                                     {day.startHour ? dayjs(day.startHour).format('HH') : ''}
                                     {' '}
                                     -
@@ -172,7 +228,7 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                                 </Text>
                                 <Text
                                     align="center"
-                                    size="sm"
+                                    size="xs"
                                     weight="bold"
                                 >
                                     {day.startHour ? Object.values(day.present).reduce((accumulator, dayHours) => {
@@ -212,7 +268,7 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                 >
                     <Text
                         align="center"
-                        size="sm"
+                        size="xs"
                     >
                         20
                     </Text>
