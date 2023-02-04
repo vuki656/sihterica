@@ -1,4 +1,3 @@
-import { capitalize } from '@/shared/utils'
 import {
     Box
     ,
@@ -20,8 +19,11 @@ import {
 
 import type { PdfProps } from './Pdf.types'
 
+import { capitalize } from '@/shared/utils'
+
 const TOTAL_COLUMN = 1
-const PDF_COLUMNS = `130px 100px 1fr repeat(${ABSENT_CATEGORIES.length + PRESENT_CATEGORIES.length + TOTAL_COLUMN}, 20px)`
+const CATEGORY_COULMN_COUNT = ABSENT_CATEGORIES.length + PRESENT_CATEGORIES.length + TOTAL_COLUMN
+const PDF_COLUMNS = `130px 100px 100px repeat(${CATEGORY_COULMN_COUNT}, 20px)`
 
 // TODO: extract pdf header to a componnetn
 export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
@@ -153,9 +155,9 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                         Datum
                     </Text>
                     <Text
+                        align="center"
                         size="xs"
                         weight="bold"
-                        align='center'
                     >
                         Od - Do
                     </Text>
@@ -214,12 +216,12 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                         return (
                             <Group
                                 sx={{
+                                    backgroundColor: isSunday(day.date) ? theme.colors.gray[2] : 'white',
                                     borderBottom: '1px solid black',
                                     display: 'grid',
                                     gridTemplateColumns: PDF_COLUMNS,
                                     justifyContent: 'center',
                                     width: '100%',
-                                    backgroundColor: isSunday(day.date) ? theme.colors.gray[2] : 'white'
                                 }}
                             >
                                 <Text size="xs">
@@ -245,7 +247,7 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                                     }, 0) : '-'}
                                 </Text>
                                 {PRESENT_CATEGORIES.map((category) => {
-                                    const value =  day.present[category.name]
+                                    const value = day.present[category.name]
 
                                     return (
                                         <Text
@@ -258,7 +260,7 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                                     )
                                 })}
                                 {ABSENT_CATEGORIES.map((category) => {
-                                    const value =  day.absent[category.name]
+                                    const value = day.absent[category.name]
 
                                     return (
                                         <Text
@@ -275,19 +277,64 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                     })}
                 </Box>
             </Stack>
-            <Box
+            <Group
                 sx={{
+                    alignItems: 'center',
                     display: 'grid',
                     gridTemplateColumns: PDF_COLUMNS,
                 }}
             >
                 <Text
-                    align="center"
-                    size="xs"
+                    size="sm"
+                    weight="bold"
                 >
-                    20
+                    Ukupno
                 </Text>
-            </Box>
+                <div />
+                <Text
+                    align="center"
+                    size="sm"
+                    weight="bold"
+                >
+                    {data.list.reduce((accumulator, day) => {
+                        return accumulator + Object.values(day.present).reduce((accumulator, category) => {
+                            return accumulator + category
+                        }, 0)
+                    }, 0)}
+                </Text>
+                {PRESENT_CATEGORIES.map((category) => {
+                    const totalCategoryHours = data.list.reduce((accumulator, day) => {
+                        return accumulator + day.present[category.name]
+                    }, 0)
+
+                    console.log(totalCategoryHours)
+
+                    return (
+                        <Text
+                            align="center"
+                            size="xs"
+                            weight="bold"
+                        >
+                            {totalCategoryHours}
+                        </Text>
+                    )
+                })}
+                {ABSENT_CATEGORIES.map((category) => {
+                    const totalCategoryHours = data.list.reduce((accumulator, day) => {
+                        return accumulator + day.absent[category.name]
+                    }, 0)
+
+                    return (
+                        <Text
+                            align="center"
+                            size="xs"
+                            weight="bold"
+                        >
+                            {totalCategoryHours}
+                        </Text>
+                    )
+                })}
+            </Group>
         </Stack>
     )
 })
