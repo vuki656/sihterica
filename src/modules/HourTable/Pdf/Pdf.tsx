@@ -1,3 +1,4 @@
+import { capitalize } from '@/shared/utils'
 import {
     Box
     ,
@@ -8,6 +9,7 @@ import {
     Text,
     useMantineTheme,
 } from '@mantine/core'
+import { isSunday } from 'date-fns'
 import dayjs from 'dayjs'
 import { forwardRef } from 'react'
 
@@ -19,7 +21,7 @@ import {
 import type { PdfProps } from './Pdf.types'
 
 const TOTAL_COLUMN = 1
-const PDF_COLUMNS = `130px 50px 1fr repeat(${ABSENT_CATEGORIES.length + PRESENT_CATEGORIES.length + TOTAL_COLUMN}, 20px)`
+const PDF_COLUMNS = `130px 100px 1fr repeat(${ABSENT_CATEGORIES.length + PRESENT_CATEGORIES.length + TOTAL_COLUMN}, 20px)`
 
 // TODO: extract pdf header to a componnetn
 export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
@@ -153,6 +155,7 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                     <Text
                         size="xs"
                         weight="bold"
+                        align='center'
                     >
                         Od - Do
                     </Text>
@@ -216,19 +219,21 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                                     gridTemplateColumns: PDF_COLUMNS,
                                     justifyContent: 'center',
                                     width: '100%',
+                                    backgroundColor: isSunday(day.date) ? theme.colors.gray[2] : 'white'
                                 }}
                             >
                                 <Text size="xs">
-                                    {dayjs(day.date).format('DD.MM.YYYY dddd')}
+                                    {dayjs(day.date).format('DD.MM.YYYY')}
+                                    {' '}
+                                    {capitalize(dayjs(day.date).format('dddd'))}
                                 </Text>
                                 <Text
                                     align="center"
                                     size="xs"
                                 >
-                                    {day.startHour ? dayjs(day.startHour).format('HH') : ''}
-                                    {' '}
-                                    -
-                                    {day.endHour ? dayjs(day.endHour).format('HH') : ''}
+                                    {day.startHour ? dayjs(day.startHour).format('HH:mm') : ''}
+                                    {' - '}
+                                    {day.endHour ? dayjs(day.endHour).format('HH:mm') : ''}
                                 </Text>
                                 <Text
                                     align="center"
@@ -240,22 +245,28 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                                     }, 0) : '-'}
                                 </Text>
                                 {PRESENT_CATEGORIES.map((category) => {
+                                    const value =  day.present[category.name]
+
                                     return (
                                         <Text
                                             align="center"
                                             size="xs"
+                                            weight={value === 0 ? 400 : 600}
                                         >
-                                            {day.present[category.name]}
+                                            {value}
                                         </Text>
                                     )
                                 })}
                                 {ABSENT_CATEGORIES.map((category) => {
+                                    const value =  day.absent[category.name]
+
                                     return (
                                         <Text
                                             align="center"
                                             size="xs"
+                                            weight={value === 0 ? 400 : 600}
                                         >
-                                            {day.absent[category.name]}
+                                            {value}
                                         </Text>
                                     )
                                 })}
