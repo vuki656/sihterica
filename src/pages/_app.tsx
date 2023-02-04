@@ -4,6 +4,7 @@ import { hr } from 'date-fns/locale'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import 'dayjs/locale/hr'
+import { GlobalStyles } from '@/Components'
 
 setDefaultOptions({ locale: hr })
 
@@ -36,6 +37,7 @@ const App = (props: AppProps) => {
                 withGlobalStyles={true}
                 withNormalizeCSS={true}
             >
+                <GlobalStyles />
                 <Component {...pageProps} />
             </MantineProvider>
         </>
