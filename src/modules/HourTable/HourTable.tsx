@@ -66,6 +66,9 @@ const SHIFT_END_TIME = 16
 // TODO: total hours for the column
 // TODO: performance is trash
 // FIXME: you can put blank value inside an hour box
+// TODO: enter company name
+// TODO: enter company address
+// TODO: buttons for 8 - 16, 7 - 15
 export const HourTable = (props: HourTableProps) => {
     const { nonWorkingDays } = props
 
