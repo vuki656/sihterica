@@ -39,7 +39,6 @@ export const dayValidation = z.object({
 })
 
 export const monthValidation = z.object({
-    date: z.date({ required_error: 'Morate odabrati datum' }),
     fullName: z.string().min(2, { message: 'Morate unesti ime radnika' }),
     list: z.array(dayValidation),
 })

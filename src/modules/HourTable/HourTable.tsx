@@ -10,10 +10,7 @@ import {
     TextInput,
     Title,
 } from '@mantine/core'
-import {
-    DatePicker,
-    TimeInput,
-} from '@mantine/dates'
+import { TimeInput } from '@mantine/dates'
 import {
     IconBeach,
     IconPrinter,
@@ -84,7 +81,6 @@ export const HourTable = (props: HourTableProps) => {
         register,
     } = useForm<HourTableFormValueType>({
         defaultValues: {
-            date: undefined,
             fullName: '',
             list: days.map((day) => {
                 return {
@@ -187,22 +183,6 @@ export const HourTable = (props: HourTableProps) => {
                             {...extractFormFieldError(formState.errors.fullName)}
                             label="Radnik"
                             placeholder="Ime i prezime radnika"
-                        />
-                        <Controller
-                            control={control}
-                            name="date"
-                            render={(controller) => {
-                                return (
-                                    <DatePicker
-                                        {...extractFormFieldError(controller.fieldState.error)}
-                                        label="Za datum"
-                                        locale="hr"
-                                        onChange={controller.field.onChange}
-                                        placeholder="Odaberite datum"
-                                        value={controller.field.value}
-                                    />
-                                )
-                            }}
                         />
                     </Group>
                 </Group>
