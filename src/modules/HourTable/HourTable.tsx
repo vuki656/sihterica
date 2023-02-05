@@ -56,6 +56,8 @@ import {
     capitalize,
     extractFormFieldError,
 } from '@/shared/utils'
+import { MonthPicker } from 'mantine-dates-6'
+import dayjs from 'dayjs'
 
 const COLUMNS = `200px repeat(2, 100px) repeat(${ABSENT_CATEGORIES.length + PRESENT_CATEGORIES.length}, auto)`
 
@@ -66,6 +68,7 @@ const SHIFT_END_TIME = 16
 // TODO: total hours for the column
 // TODO: performance is trash
 // TODO: buttons for 8 - 16, 7 - 15
+// TODO: month picker
 // FIXME: you can put blank value inside an hour box
 export const HourTable = (props: HourTableProps) => {
     const { nonWorkingDays } = props
@@ -95,6 +98,10 @@ export const HourTable = (props: HourTableProps) => {
         register,
     } = useForm<HourTableFormValueType>({
         defaultValues: {
+            month: dayjs(new Date)
+                .subtract(1, 'month')
+                .startOf('months')
+                .toDate(),
             fullName: '',
             list: days.map((day) => {
                 return {
@@ -214,6 +221,20 @@ export const HourTable = (props: HourTableProps) => {
                             label="Adresa"
                             placeholder="Unesite adresu firme"
                         />
+                        <Controller 
+                            name='month'
+                            control={control}
+                            render={(controller) => {
+                                return (
+                                    <MonthPicker 
+                                        value={controller.field.value}
+                                        onChange={(value) => {
+                                            controller.field.onChange(value)
+                                        }}
+                                    />
+                                )
+                            }}
+                            />
                     </Group>
                 </Group>
                 <Paper
