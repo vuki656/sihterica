@@ -55,10 +55,10 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                         size="xs"
                         weight="bold"
                     >
-                        KNJIGOVODSTVENI SERVIS LIBER, Tanja Vuković
+                        {data.companyName}
                     </Text>
                     <Text size="xs">
-                        33000 VIROVITICA, MASARYKOVA 14/1
+                        {data.address}
                     </Text>
                 </Stack>
                 <Text

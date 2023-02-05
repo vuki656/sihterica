@@ -196,13 +196,25 @@ export const HourTable = (props: HourTableProps) => {
                         Print
                     </Button>
                 </Group>
-                <Group position="apart">
+                <Group>
                     <Group>
                         <TextInput
                             {...register('fullName')}
                             {...extractFormFieldError(formState.errors.fullName)}
                             label="Radnik"
-                            placeholder="Ime i prezime radnika"
+                            placeholder="Unestie puno ime radnika"
+                        />
+                        <TextInput
+                            {...register('companyName')}
+                            {...extractFormFieldError(formState.errors.companyName)}
+                            label="Ime firme"
+                            placeholder="Unesite ime firme"
+                        />
+                        <TextInput
+                            {...register('address')}
+                            {...extractFormFieldError(formState.errors.fullName)}
+                            label="Adresa"
+                            placeholder="Unesite adresu firme"
                         />
                     </Group>
                 </Group>
@@ -210,9 +222,7 @@ export const HourTable = (props: HourTableProps) => {
                     component={Stack}
                     shadow="xl"
                     spacing={0}
-                    sx={{
-                        backgroundColor: 'white',
-                    }}
+                    sx={{ backgroundColor: 'white' }}
                 >
                     <Paper
                         sx={(theme) => ({
