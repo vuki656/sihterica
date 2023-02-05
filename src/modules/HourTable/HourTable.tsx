@@ -385,6 +385,7 @@ export const HourTable = (props: HourTableProps) => {
                                                 render={(controller) => {
                                                     return (
                                                         <HourInput
+                                                            error={Boolean(controller.fieldState.error)}
                                                             onChange={(value) => {
                                                                 if (!value) {
                                                                     controller.field.onChange(null)
@@ -410,9 +411,10 @@ export const HourTable = (props: HourTableProps) => {
                                                 render={(controller) => {
                                                     return (
                                                         <HourInput
+                                                            error={Boolean(controller.fieldState.error)}
                                                             onChange={(value) => {
                                                                 if (!value) {
-                                                                    controller.field.onChange(0)
+                                                                    controller.field.onChange(null)
 
                                                                     return
                                                                 }

@@ -5,6 +5,7 @@ import { forwardRef } from 'react'
 export const HourInput = forwardRef<HTMLInputElement, NumberInputProps>(function HourInput(props, ref) {
     const {
         value,
+        error,
         ...other
     } = props
 
@@ -15,9 +16,13 @@ export const HourInput = forwardRef<HTMLInputElement, NumberInputProps>(function
             max={24}
             ref={ref}
             sx={(theme) => {
-                const borderColor = value === 0
-                    ? theme.colors.gray[1]
-                    : theme.colors.green[4]
+                let borderColor = value
+                    ? theme.colors.green[4]
+                    : theme.colors.gray[1]
+
+                if (error) {
+                    borderColor = theme.colors.red[4]
+                }
 
                 return {
                     'input': {
