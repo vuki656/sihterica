@@ -11,6 +11,7 @@ export const HourInput = forwardRef<HTMLInputElement, NumberInputProps>(function
     return (
         <NumberInput
             hideControls={true}
+            min={0}
             max={24}
             ref={ref}
             sx={(theme) => {

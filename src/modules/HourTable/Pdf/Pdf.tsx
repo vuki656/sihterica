@@ -21,7 +21,7 @@ import { capitalize } from '@/shared/utils'
 
 const TOTAL_COLUMN = 1
 const CATEGORY_COULMN_COUNT = ABSENT_CATEGORIES.length + PRESENT_CATEGORIES.length + TOTAL_COLUMN
-const PDF_COLUMNS = `130px 100px 100px repeat(${CATEGORY_COULMN_COUNT}, 20px)`
+const COLUMNS = `130px 100px 100px repeat(${CATEGORY_COULMN_COUNT}, 20px)`
 
 // TODO: extract pdf header to a component
 export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
@@ -127,7 +127,7 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                         borderBottom: '1px solid black',
                         borderTop: '1px solid black',
                         display: 'grid',
-                        gridTemplateColumns: PDF_COLUMNS,
+                        gridTemplateColumns: COLUMNS,
                         padding: '10px 0',
                     }}
                 >
@@ -203,7 +203,7 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                                     backgroundColor: isSunday(day.date) ? theme.colors.gray[2] : 'white',
                                     borderBottom: '1px solid black',
                                     display: 'grid',
-                                    gridTemplateColumns: PDF_COLUMNS,
+                                    gridTemplateColumns: COLUMNS,
                                     justifyContent: 'center',
                                     width: '100%',
                                 }}
@@ -267,7 +267,7 @@ export const Pdf = forwardRef<HTMLDivElement, PdfProps>((props, ref) => {
                 sx={{
                     alignItems: 'center',
                     display: 'grid',
-                    gridTemplateColumns: PDF_COLUMNS,
+                    gridTemplateColumns: COLUMNS,
                 }}
             >
                 <Text
