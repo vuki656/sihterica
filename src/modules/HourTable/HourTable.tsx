@@ -57,7 +57,7 @@ import {
     extractFormFieldError,
 } from '@/shared/utils'
 
-const COLUMNS = `200px 80px 80px repeat(${ABSENT_CATEGORIES.length + PRESENT_CATEGORIES.length}, auto)`
+const COLUMNS = `200px repeat(2, 100px) repeat(${ABSENT_CATEGORIES.length + PRESENT_CATEGORIES.length}, auto)`
 
 const SHIFT_START_TIME = 8
 const SHIFT_END_TIME = 16
@@ -65,8 +65,8 @@ const SHIFT_END_TIME = 16
 // TODO: total hours for day row
 // TODO: total hours for the column
 // TODO: performance is trash
-// FIXME: you can put blank value inside an hour box
 // TODO: buttons for 8 - 16, 7 - 15
+// FIXME: you can put blank value inside an hour box
 export const HourTable = (props: HourTableProps) => {
     const { nonWorkingDays } = props
 
@@ -210,7 +210,7 @@ export const HourTable = (props: HourTableProps) => {
                         />
                         <TextInput
                             {...register('address')}
-                            {...extractFormFieldError(formState.errors.fullName)}
+                            {...extractFormFieldError(formState.errors.address)}
                             label="Adresa"
                             placeholder="Unesite adresu firme"
                         />
@@ -356,6 +356,7 @@ export const HourTable = (props: HourTableProps) => {
                                         render={(controller) => {
                                             return (
                                                 <TimeInput
+                                                    clearable={true}
                                                     onChange={controller.field.onChange}
                                                     value={controller.field.value ?? undefined}
                                                 />
@@ -368,6 +369,7 @@ export const HourTable = (props: HourTableProps) => {
                                         render={(controller) => {
                                             return (
                                                 <TimeInput
+                                                    clearable={true}
                                                     onChange={controller.field.onChange}
                                                     value={controller.field.value ?? undefined}
                                                 />
