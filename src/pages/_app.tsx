@@ -2,9 +2,11 @@ import { MantineProvider } from '@mantine/core'
 import { setDefaultOptions } from 'date-fns'
 import { hr } from 'date-fns/locale'
 import type { AppProps } from 'next/app'
-import Head from 'next/head'
 import 'dayjs/locale/hr'
+import Head from 'next/head'
+
 import { GlobalStyles } from '@/Components'
+
 import dayjs from 'dayjs'
 
 setDefaultOptions({ locale: hr })

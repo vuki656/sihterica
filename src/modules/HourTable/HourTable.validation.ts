@@ -39,8 +39,8 @@ export const dayValidation = z.object({
 })
 
 export const monthValidation = z.object({
-    fullName: z.string().min(1, { message: 'Morate unesti ime radnika' }),
-    companyName: z.string().min(1, { message: 'Morate unesti ime firme' }),
     address: z.string().min(1, { message: 'Morate unesti adresu' }),
+    companyName: z.string().min(1, { message: 'Morate unesti ime firme' }),
+    fullName: z.string().min(1, { message: 'Morate unesti ime radnika' }),
     list: z.array(dayValidation),
 })

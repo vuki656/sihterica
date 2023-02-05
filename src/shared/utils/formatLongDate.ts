@@ -1,4 +1,4 @@
-import { format } from "date-fns"
+import { format } from 'date-fns'
 
 // TODO: use this everywhere
 // TODO: potentialy also handle uppercasing first word of the day here
