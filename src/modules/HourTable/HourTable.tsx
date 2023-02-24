@@ -28,6 +28,8 @@ import {
     startOfDay,
     startOfMonth,
 } from 'date-fns'
+import dayjs from 'dayjs'
+import { MonthPicker } from 'mantine-dates-6'
 import {
     useMemo,
     useRef,
@@ -56,8 +58,6 @@ import {
     capitalize,
     extractFormFieldError,
 } from '@/shared/utils'
-import { MonthPicker } from 'mantine-dates-6'
-import dayjs from 'dayjs'
 
 const COLUMNS = `200px repeat(2, 100px) repeat(${ABSENT_CATEGORIES.length + PRESENT_CATEGORIES.length}, auto)`
 
@@ -98,10 +98,6 @@ export const HourTable = (props: HourTableProps) => {
         register,
     } = useForm<HourTableFormValueType>({
         defaultValues: {
-            month: dayjs(new Date)
-                .subtract(1, 'month')
-                .startOf('months')
-                .toDate(),
             fullName: '',
             list: days.map((day) => {
                 return {
@@ -133,6 +129,10 @@ export const HourTable = (props: HourTableProps) => {
                     startHour: isWeekend(day) ? null : addHours(startOfDay(new Date()), SHIFT_START_TIME),
                 }
             }),
+            month: dayjs(new Date)
+                .subtract(1, 'month')
+                .startOf('months')
+                .toDate(),
         },
         reValidateMode: 'onSubmit',
         resolver: zodResolver(monthValidation),
@@ -221,12 +221,12 @@ export const HourTable = (props: HourTableProps) => {
                             label="Adresa"
                             placeholder="Unesite adresu firme"
                         />
-                        <Controller 
-                            name='month'
+                        <Controller
+                            name="month"
                             control={control}
                             render={(controller) => {
                                 return (
-                                    <MonthPicker 
+                                    <MonthPicker
                                         value={controller.field.value}
                                         onChange={(value) => {
                                             controller.field.onChange(value)
@@ -234,7 +234,7 @@ export const HourTable = (props: HourTableProps) => {
                                     />
                                 )
                             }}
-                            />
+                        />
                     </Group>
                 </Group>
                 <Paper

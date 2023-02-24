@@ -4,8 +4,8 @@ import { forwardRef } from 'react'
 
 export const HourInput = forwardRef<HTMLInputElement, NumberInputProps>(function HourInput(props, ref) {
     const {
-        value,
         error,
+        value,
         ...other
     } = props
 
