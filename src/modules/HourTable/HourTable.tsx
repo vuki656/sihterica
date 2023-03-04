@@ -27,6 +27,7 @@ import {
     parseISO,
     startOfDay,
     startOfMonth,
+    subMonths,
 } from 'date-fns'
 import {
     useMemo,
@@ -83,8 +84,18 @@ export const HourTable = (props: HourTableProps) => {
 
     const days = useMemo(() => {
         return eachDayOfInterval({
-            end: endOfMonth(new Date()),
-            start: startOfMonth(new Date()),
+            end: endOfMonth(
+                subMonths(
+                    new Date(),
+                    1
+                )
+            ),
+            start: startOfMonth(
+                subMonths(
+                    new Date(),
+                    1
+                )
+            ),
         })
     }, [])
 
